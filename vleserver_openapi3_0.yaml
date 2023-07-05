@@ -17,77 +17,70 @@ paths:
   /restvle/runtime.json: {}
   /restvle/dicts/{dict_name}/backup:
     post:
+      operationId: _:createDictBackup
       summary: Creates a backup of a dictionary.
       parameters:
-        - schema:
-            x-xml-type: xs:string
-            type: string
+        - schema: {}
+          in: path
+          example: No example provided!
+          name: dict_name
+          description: Name of an existing dictionary
+          required: true
+        - schema: {}
           in: header
+          example: No example provided!
           name: Content-Type
           description: Required to be application/json else returns 415.
           required: false
-        - schema:
-            x-xml-type: xs:string
-            type: string
+        - schema: {}
           in: header
+          example: No example provided!
           name: Accept
           description: Required to be application/vnd.wde.v2+json else returns 403.
           required: false
-        - schema:
-            x-xml-type: xs:string
-            type: string
+        - schema: {}
           in: header
+          example: No example provided!
           name: Authorization
           required: false
       responses:
         '200':
           content:
             application/vnd.wde.v2+json:
-              schema:
-                x-xml-type: item()
-                type: string
+              schema: {}
+              example: No example provided!
             application/problem+xml:
               schema:
                 x-xml-type: item()
                 type: string
+              example: No example provided!
             application/problem+json:
-              schema:
-                x-xml-type: item()
-                type: string
+              schema: {}
+              example: No example provided!
           description: 201 Created
       tags:
         - dicts
-    parameters:
-      - schema:
-          x-xml-type: xs:string
-          type: string
-        in: path
-        name: dict_name
-        description: Name of an existing dictionary
-        required: true
+      description: no further description
   /restvle/dicts/{dict_name}/entries/{id}:
-    parameters:
-      - schema:
-          x-xml-type: xs:string
-          type: string
-        in: path
-        name: dict_name
-        description: Name of an existing dictionary
-        required: true
-      - schema:
-          x-xml-type: xs:string
-          type: string
-        in: path
-        name: id
-        description: The @xml:id or @ID of the entry to be deleted.
-        required: true
     delete:
+      operationId: _:deleteDictDictNameEntry
       summary: Remove an entry.
       parameters:
-        - schema:
-            x-xml-type: xs:string
-            type: string
+        - schema: {}
+          in: path
+          example: No example provided!
+          name: dict_name
+          description: Name of an existing dictionary
+          required: true
+        - schema: {}
+          in: path
+          example: No example provided!
+          name: id
+          description: The @xml:id or @ID of the entry to be deleted.
+          required: true
+        - schema: {}
           in: header
+          example: No example provided!
           name: Authorization
           description: Required for getting the user for the changelog.
           required: false
@@ -99,6 +92,7 @@ paths:
                 nullable: true
                 x-xml-type: item()
                 type: string
+              example: ''
           description: 204 No Content
       tags:
         - entries
@@ -107,62 +101,93 @@ paths:
         authorized user has to won the lock to do this. Otherwise a 422 error is
         returned.
     put:
+      operationId: _:changeEntry
       summary: Change a dictionary entry.
       parameters:
-        - schema:
-            x-xml-type: xs:string
-            type: string
+        - schema: {}
+          in: path
+          example: No example provided!
+          name: dict_name
+          required: true
+        - schema: {}
+          in: path
+          example: No example provided!
+          name: id
+          description: The @xml:id or @ID of the entry to be changed.
+          required: true
+        - schema: {}
           in: header
+          example: No example provided!
           name: Content-Type
           description: Required to be application/json else returns 415.
           required: false
-        - schema:
-            x-xml-type: xs:string
-            type: string
+        - schema: {}
           in: header
+          example: No example provided!
           name: Accept
           description: Required to be application/vnd.wde.v2+json else returns 403.
           required: false
-        - schema:
-            x-xml-type: xs:string
-            type: string
+        - schema: {}
           in: header
+          example: No example provided!
           name: Authorization
           description: Required for getting the user for the changelog.
           required: false
       requestBody:
         content:
-          application/xml:
+          application/json:
             schema:
-              nullable: true
-              x-xml-type: item()
-              type: string
-            example: |-
-              {
-                "sid": "The internal ID. May be empty string.",
-                "lemma": "A lemma. May be empty string.",
-                "entry": "The entry as XML fragment.",
-                "storedEntryMd5": "Optional: the last known checksum for the entry in the DB.",
-                "owner": "Optional: set (or clear) the owner of an entry. TODO: enforce only write own",
-                "status": "Optional: set (or clear) a status string. 'released' was used with some special meaning in the past"
-              }
+              properties:
+                lemma:
+                  example: A lemma. May be empty string.
+                  type: string
+                sid:
+                  example: The internal ID. May be empty string.
+                  type: string
+                storedEntryMd5:
+                  example: 'Optional: the last known checksum for the entry in the DB.'
+                  type: string
+                entry:
+                  example: The entry as XML fragment.
+                  type: string
+                status:
+                  example: >-
+                    Optional: set (or clear) a status string. 'released' was
+                    used with some special meaning in the past
+                  type: string
+                owner:
+                  example: >-
+                    Optional: set (or clear) the owner of an entry. TODO:
+                    enforce only write own
+                  type: string
+              type: object
+            example:
+              lemma: A lemma. May be empty string.
+              sid: The internal ID. May be empty string.
+              storedEntryMd5: 'Optional: the last known checksum for the entry in the DB.'
+              entry: The entry as XML fragment.
+              status: >-
+                Optional: set (or clear) a status string. 'released' was used
+                with some special meaning in the past
+              owner: >-
+                Optional: set (or clear) the owner of an entry. TODO: enforce
+                only write own
         description: 'JSON describing the changed entry. Processed as variable: $userData'
         required: true
       responses:
         '200':
           content:
             application/vnd.wde.v2+json:
-              schema:
-                x-xml-type: item()
-                type: string
+              schema: {}
+              example: No example provided!
             application/problem+xml:
               schema:
                 x-xml-type: item()
                 type: string
+              example: No example provided!
             application/problem+json:
-              schema:
-                x-xml-type: item()
-                type: string
+              schema: {}
+              example: No example provided!
           description: >-
             The changed entry. Including the changelog entry the server
             generated.
@@ -173,40 +198,41 @@ paths:
         authorized user has to own the lock to do this. Otherwise a 422 error is
         returned.
     get:
+      operationId: _:getDictDictNameEntry
       summary: Get a particular entry from a dictionary.
       parameters:
+        - schema: {}
+          in: path
+          example: No example provided!
+          name: dict_name
+          description: Name of an existing dictionary.
+          required: true
+        - schema: {}
+          in: path
+          example: No example provided!
+          name: id
+          description: The @xml:id or @ID of the entry to be changed.
+          required: true
         - schema:
             nullable: true
-            x-xml-type: xs:string
-            type: string
           in: query
           name: lock
-          description: |-
-            Whether to lock the entry for later saving it.
-
-            Can be a time in seconds that tells how long the entry should be
-            locked. Can be true for the maximum amount of time allowed.
-            After at most that timeout the entry needs to be locked again using
-            this function.
+          description: "Whether to lock the entry for later saving it.\r\n\r\nCan be a time in seconds that tells how long the entry should be\r\nlocked. Can be true for the maximum amount of time allowed.\r\nAfter at most that timeout the entry needs to be locked again using\r\nthis function."
           required: false
         - schema:
             nullable: true
-            x-xml-type: xs:string
-            type: string
           in: query
           name: format
           required: false
-        - schema:
-            x-xml-type: xs:string
-            type: string
+        - schema: {}
           in: header
+          example: No example provided!
           name: Accept
           description: Required to be application/vnd.wde.v2+json else returns 403.
           required: false
-        - schema:
-            x-xml-type: xs:string
-            type: string
+        - schema: {}
           in: header
+          example: No example provided!
           name: Authorization
           description: Required for locking the entry otherwise unused.
           required: false
@@ -216,28 +242,21 @@ paths:
             application/vnd.wde.v2+json:
               schema:
                 nullable: true
-                x-xml-type: item()
-                type: string
             application/json:
               schema:
                 nullable: true
-                x-xml-type: item()
-                type: string
             application/problem+xml:
               schema:
                 nullable: true
                 x-xml-type: item()
                 type: string
+              example: ''
             application/problem+json:
               schema:
                 nullable: true
-                x-xml-type: item()
-                type: string
             application/hal+json:
               schema:
                 nullable: true
-                x-xml-type: item()
-                type: string
           description: >-
             A JSON HAL document containing the entry XML and further extracted
             data.
@@ -254,27 +273,26 @@ paths:
   /restvle/openapi.json: {}
   /restvle:
     get:
+      operationId: _:getRoot
       summary: A static collection showing valid next URLs.
       parameters: []
       responses:
         '200':
           content:
             application/json:
-              schema:
-                x-xml-type: item()
-                type: string
+              schema: {}
+              example: No example provided!
             application/problem+xml:
               schema:
                 x-xml-type: item()
                 type: string
+              example: No example provided!
             application/problem+json:
-              schema:
-                x-xml-type: item()
-                type: string
+              schema: {}
+              example: No example provided!
             application/hal+json:
-              schema:
-                x-xml-type: item()
-                type: string
+              schema: {}
+              example: No example provided!
           description: |-
             A JSON HAL based list of documents. If pageSize is 10 or less the
             individual entries are included.
@@ -286,37 +304,62 @@ paths:
         application/hal+json for unrestricted read access.
   /restvle/dicts/dict_users/users:
     post:
+      operationId: _:createUser
       summary: Create a user.
       parameters:
-        - schema:
-            x-xml-type: xs:string
-            type: string
+        - schema: {}
           in: header
+          example: No example provided!
           name: Content-Type
           required: false
-        - schema:
-            x-xml-type: xs:string
-            type: string
+        - schema: {}
           in: header
+          example: No example provided!
           name: Accept
           required: false
       requestBody:
         content:
-          application/xml:
+          application/json:
             schema:
-              nullable: true
-              x-xml-type: item()
-              type: string
-            example: |-
-              {
-                "id": "The internal ID. When creating a new user this will be filled in automatically.",
-                "userID": "The user id or username.",
-                "pw": "The password for that user and that table.",
-                "read": "Whether the user has read access.",
-                "write": "Whether the user has write access.",
-                "writeown": "Whether the user may change entries that dont belong to her.",
-                "table": "A table name. Will only be returned on administrative queries on the special dict_users storage."
-              }
+              properties:
+                userID:
+                  example: The user id or username.
+                  type: string
+                pw:
+                  example: The password for that user and that table.
+                  type: string
+                writeown:
+                  example: Whether the user may change entries that dont belong to her.
+                  type: string
+                table:
+                  example: >-
+                    A table name. Will only be returned on administrative
+                    queries on the special dict_users storage.
+                  type: string
+                read:
+                  example: Whether the user has read access.
+                  type: string
+                id:
+                  example: >-
+                    The internal ID. When creating a new user this will be
+                    filled in automatically.
+                  type: string
+                write:
+                  example: Whether the user has write access.
+                  type: string
+              type: object
+            example:
+              userID: The user id or username.
+              pw: The password for that user and that table.
+              writeown: Whether the user may change entries that dont belong to her.
+              table: >-
+                A table name. Will only be returned on administrative queries on
+                the special dict_users storage.
+              read: Whether the user has read access.
+              id: >-
+                The internal ID. When creating a new user this will be filled in
+                automatically.
+              write: Whether the user has write access.
         description: ' Processed as variable: $userData'
         required: true
       responses:
@@ -325,34 +368,31 @@ paths:
             application/vnd.wde.v2+json:
               schema:
                 nullable: true
-                x-xml-type: item()
-                type: string
             application/problem+xml:
               schema:
                 nullable: true
                 x-xml-type: item()
                 type: string
+              example: ''
             application/problem+json:
               schema:
                 nullable: true
-                x-xml-type: item()
-                type: string
           description: ''
       tags:
         - users
+      description: no further description
     get:
+      operationId: _:getDictDictUserUsers
       summary: List users.
       parameters:
-        - schema:
-            x-xml-type: xs:integer
-            type: string
+        - schema: {}
           in: query
+          example: No example provided!
           name: page
           required: false
-        - schema:
-            x-xml-type: xs:integer
-            type: string
+        - schema: {}
           in: query
+          example: No example provided!
           name: pageSize
           required: false
       responses:
@@ -361,47 +401,39 @@ paths:
             application/vnd.wde.v2+json:
               schema:
                 nullable: true
-                x-xml-type: item()
-                type: string
             application/json:
               schema:
                 nullable: true
-                x-xml-type: item()
-                type: string
             application/problem+xml:
               schema:
                 nullable: true
                 x-xml-type: item()
                 type: string
+              example: ''
             application/problem+json:
               schema:
                 nullable: true
-                x-xml-type: item()
-                type: string
             application/hal+json:
               schema:
                 nullable: true
-                x-xml-type: item()
-                type: string
           description: ''
       tags:
         - users
+      description: no further description
   /restvle/dicts/{dict_name}:
-    parameters:
-      - schema:
-          x-xml-type: xs:string
-          type: string
-        in: path
-        name: dict_name
-        description: Name of an existing dictionary
-        required: true
     delete:
+      operationId: _:deleteDictDictName
       summary: Remove a dictionary.
       parameters:
-        - schema:
-            x-xml-type: xs:string
-            type: string
+        - schema: {}
+          in: path
+          example: No example provided!
+          name: dict_name
+          description: Name of an existing dictionary
+          required: true
+        - schema: {}
           in: header
+          example: No example provided!
           name: Authorization
           required: false
       responses:
@@ -412,6 +444,7 @@ paths:
                 nullable: true
                 x-xml-type: item()
                 type: string
+              example: ''
           description: 204 No Content
       tags:
         - dicts
@@ -421,31 +454,35 @@ paths:
         Also all users entries for this dictionary are removed. Can also remove
         dict_users if it is the last remaining dictionary
     get:
+      operationId: _:getDictDictName
       summary: A list of all connecting URIs for a particular dictionary.
-      parameters: []
+      parameters:
+        - schema: {}
+          in: path
+          example: No example provided!
+          name: dict_name
+          description: Name of an existing dictionary
+          required: true
       responses:
         '200':
           content:
             application/vnd.wde.v2+json:
-              schema:
-                x-xml-type: item()
-                type: string
+              schema: {}
+              example: No example provided!
             application/json:
-              schema:
-                x-xml-type: item()
-                type: string
+              schema: {}
+              example: No example provided!
             application/problem+xml:
               schema:
                 x-xml-type: item()
                 type: string
+              example: No example provided!
             application/problem+json:
-              schema:
-                x-xml-type: item()
-                type: string
+              schema: {}
+              example: No example provided!
             application/hal+json:
-              schema:
-                x-xml-type: item()
-                type: string
+              schema: {}
+              example: No example provided!
           description: A JSON HAL based list of connecting URIs.
       tags:
         - dicts
@@ -456,48 +493,63 @@ paths:
         application/hal+json for unrestricted read access.
   /restvle/dicts/{dict_name}/entries:
     post:
+      operationId: _:createEntry
       summary: Creates a new dictionary entry.
       parameters:
-        - schema:
-            x-xml-type: xs:string
-            type: string
+        - schema: {}
+          in: path
+          example: No example provided!
+          name: dict_name
+          required: true
+        - schema: {}
           in: header
+          example: No example provided!
           name: Content-Type
           description: Required to be application/json else returns 415.
           required: false
-        - schema:
-            x-xml-type: xs:string
-            type: string
+        - schema: {}
           in: header
+          example: No example provided!
           name: Accept
           description: Required to be application/vnd.wde.v2+json else returns 403.
           required: false
-        - schema:
-            x-xml-type: xs:string
-            type: string
+        - schema: {}
           in: header
+          example: No example provided!
           name: Authorization
           description: Required for getting the user for the changelog
           required: true
       requestBody:
         content:
-          application/xml:
+          application/json:
             schema:
-              nullable: true
-              x-xml-type: item()
-              type: string
-            example: |-
-              {
-                "sid": "The internal ID. May be empty string.",
-                "lemma": "A lemma. May be empty string.",
-                "entry": "The entry as XML fragment."
-              } or
-              entries: [{
-                "sid": "The internal ID. May be empty string.",
-                "lemma": "A lemma. May be empty string.",
-                "entry": "The entry as XML fragment."
-              }]
-        description: 'JSON describing the new entry. Processed as variable: $userData'
+              properties:
+                entries:
+                  type: array
+                  items:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      lemma:
+                        type: string
+                        example: A lemma. May be empty string.
+                      sid:
+                        type: string
+                        example:  The internal ID. May be empty string.
+                      entry:
+                        type: string
+                        example: The entry as XML fragment.
+              type: object
+            example:
+              entries:
+                - lemma: A lemma. May be empty string.
+                  sid: The internal ID. May be empty string.
+                  entry: The entry as XML fragment.
+        description: >-
+          JSON describing the new entry. Optionally can be {"sid": "The internal
+          ID. May be empty string.", "lemma": "A lemma. May be empty string.",
+          "entry": "The entry as XML fragment."} Processed as variable:
+          $userData
         required: true
       responses:
         '200':
@@ -505,89 +557,121 @@ paths:
             application/vnd.wde.v2+json:
               schema:
                 nullable: true
-                x-xml-type: item()
-                type: string
             application/problem+xml:
               schema:
                 nullable: true
                 x-xml-type: item()
                 type: string
+              example: ''
             application/problem+json:
               schema:
                 nullable: true
-                x-xml-type: item()
-                type: string
           description: 201 Created
       tags:
         - entries
+      description: no further description
     patch:
+      operationId: _:changeEntries
       summary: Change entries in a dictionary.
       parameters:
+        - schema: {}
+          in: path
+          example: No example provided!
+          name: dict_name
+          required: true
         - schema:
             nullable: true
-            x-xml-type: xs:string
-            type: string
           in: query
           name: as-user
           description: >-
             A user a super user changes the supplied entries for. Returns 403 if
             used by a normal user.
           required: false
-        - schema:
-            x-xml-type: xs:string
-            type: string
+        - schema: {}
           in: header
+          example: No example provided!
           name: Content-Type
           description: Required to be application/json else returns 415.
           required: false
-        - schema:
-            x-xml-type: xs:string
-            type: string
+        - schema: {}
           in: header
+          example: No example provided!
           name: Accept
           description: Required to be application/vnd.wde.v2+json else returns 403.
           required: false
-        - schema:
-            x-xml-type: xs:string
-            type: string
+        - schema: {}
           in: header
+          example: No example provided!
           name: Authorization
           description: Required for getting the user for the changelog.
           required: false
       requestBody:
         content:
-          application/xml:
+          application/json:
             schema:
-              nullable: true
-              x-xml-type: item()
-              type: string
-            example: |-
-              {entries: [{
-                "id": "The xml:id of the entry to change",
-                "sid": "The internal ID. May be empty string.",
-                "lemma": "A lemma. May be empty string.",
-                "entry": "The entry as XML fragment.",
-                "storedEntryMd5": "Optional: the last known checksum for the entry in the DB.",
-                "owner": "Optional: set (or clear) the owner of an entry. TODO: enforce only write own",
-                "status": "Optional: set (or clear) a status string. 'released' was used with some special meaning in the past"
-              }]}
+              properties:
+                entries:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      lemma:
+                        type: string
+                        example: A lemma. May be empty string.
+                      sid:
+                        type: string
+                        example: The internal ID. May be empty string.
+                      storedEntryMd5:
+                        type: string
+                        nullable: true
+                        example: >-
+                          the last known checksum for the entry in the DB.
+                      entry:
+                        type: string
+                        example: The entry as XML fragment.
+                      status:
+                        type: string
+                        nullable: true
+                        example: >-
+                          set (or clear) a status string. 'released' was used with some special meaning in the past
+                      owner:
+                        type: string
+                        nullable: true
+                        example: >-
+                          set (or clear) the owner of an entry. TODO: enforce only write own
+                      id:
+                        type: string
+                        example: The xml:id of the entry to change
+              type: object
+            example:
+              entries:
+                - lemma: A lemma. May be empty string.
+                  sid: The internal ID. May be empty string.
+                  storedEntryMd5: 'Optional: the last known checksum for the entry in the DB.'
+                  entry: The entry as XML fragment.
+                  status: >-
+                    Optional: set (or clear) a status string. 'released' was
+                    used with some special meaning in the past
+                  owner: >-
+                    Optional: set (or clear) the owner of an entry. TODO:
+                    enforce only write own
+                  id: The xml:id of the entry to change
         description: 'JSON describing the changed entry. Processed as variable: $userData'
         required: true
       responses:
         '200':
           content:
             application/vnd.wde.v2+json:
-              schema:
-                x-xml-type: item()
-                type: string
+              schema: {}
+              example: No example provided!
             application/problem+xml:
               schema:
                 x-xml-type: item()
                 type: string
+              example: No example provided!
             application/problem+json:
-              schema:
-                x-xml-type: item()
-                type: string
+              schema: {}
+              example: No example provided!
           description: >-
             The changed entry. Including the changelog entry the server
             generated.
@@ -597,27 +681,23 @@ paths:
         The entries are saved in the changelog db before they is changed . The
         authorized user has to own the lock for all the entries to do this.
         Otherwise a 422 error is returned.
-    parameters:
-      - schema:
-          x-xml-type: xs:string
-          type: string
-        in: path
-        name: dict_name
-        required: true
     get:
+      operationId: _:getDictDictNameEntries
       summary: 'A list of all entries for a particular dictionary. TODO: Limit by query.'
       parameters:
-        - schema:
-            x-xml-type: xs:integer
-            type: string
+        - schema: {}
+          in: path
+          example: No example provided!
+          name: dict_name
+          description: Name of an existing dictionary
+          required: true
+        - schema: {}
           in: query
           example: '1'
           name: page
           description: The page page to return based on the given pageSize
           required: false
-        - schema:
-            x-xml-type: xs:integer
-            type: string
+        - schema: {}
           in: query
           example: '10'
           name: pageSize
@@ -625,16 +705,12 @@ paths:
           required: false
         - schema:
             nullable: true
-            x-xml-type: xs:string
-            type: string
           in: query
           name: id
           description: Filter by ids starting with this string
           required: false
         - schema:
             nullable: true
-            x-xml-type: xs:string
-            type: string
           in: query
           name: ids
           description: >-
@@ -643,30 +719,18 @@ paths:
           required: false
         - schema:
             nullable: true
-            x-xml-type: xs:string
-            type: string
           in: query
           name: q
-          description: |-
-            A name of a query template stored in the profile (everyone) or
-            an XPath or XQuery to exeute as filter (only admins for this dict)
+          description: "A name of a query template stored in the profile (everyone) or\r\nan XPath or XQuery to exeute as filter (only admins for this dict)"
           required: false
         - schema:
             nullable: true
-            x-xml-type: xs:string
-            type: string
           in: query
           name: sort
-          description: >-
-            One of "asc", "desc" or "none" (everyone) or
-
-            an XPath or XQuery to execute for sorting the filtered results (only
-            admins for this dict)
+          description: "One of \"asc\", \"desc\" or \"none\" (everyone) or\r\nan XPath or XQuery to execute for sorting the filtered results (only admins for this dict)"
           required: false
         - schema:
             nullable: true
-            x-xml-type: xs:string
-            type: string
           in: query
           name: altLemma
           description: >-
@@ -675,8 +739,6 @@ paths:
           required: false
         - schema:
             nullable: true
-            x-xml-type: xs:string
-            type: string
           in: query
           name: lock
           description: >-
@@ -685,18 +747,13 @@ paths:
           required: false
         - schema:
             nullable: true
-            x-xml-type: xs:string
-            type: string
           in: query
           name: format
-          description: |-
-            An XML format the TEI should be transformed to (e. g. html)
-            Only authenticated users.
+          description: "An XML format the TEI should be transformed to (e. g. html)\r\nOnly authenticated users."
           required: false
-        - schema:
-            x-xml-type: xs:string
-            type: string
+        - schema: {}
           in: header
+          example: No example provided!
           name: Authorization
           description: >-
             Used to determine if user is allowed to use any XQuery or XPath for
@@ -704,8 +761,6 @@ paths:
           required: false
         - schema:
             nullable: true
-            x-xml-type: xs:string
-            type: string
           in: header
           name: Accept
           description: Used to determine if the user was authenticated or is anonymous.
@@ -716,28 +771,21 @@ paths:
             application/vnd.wde.v2+json:
               schema:
                 nullable: true
-                x-xml-type: item()
-                type: string
             application/json:
               schema:
                 nullable: true
-                x-xml-type: item()
-                type: string
             application/problem+xml:
               schema:
                 nullable: true
                 x-xml-type: item()
                 type: string
+              example: ''
             application/problem+json:
               schema:
                 nullable: true
-                x-xml-type: item()
-                type: string
             application/hal+json:
               schema:
                 nullable: true
-                x-xml-type: item()
-                type: string
           description: A JSON HAL based list of entry URIs.
       tags:
         - entries
@@ -751,28 +799,25 @@ paths:
         application/vnd.wde.v2+json is required to provide credentials. Use
         application/json or application/hal+json for unrestricted read access.
   /restvle/dicts/{dict_name}/entries/{id}/changes/{change_timestamp}:
-    parameters:
-      - schema:
-          x-xml-type: xs:string
-          type: string
-        in: path
-        name: dict_name
-        required: true
-      - schema:
-          x-xml-type: xs:string
-          type: string
-        in: path
-        name: id
-        required: true
-      - schema:
-          x-xml-type: xs:string
-          type: string
-        in: path
-        name: change_timestamp
-        required: true
     get:
+      operationId: _:getDictDictNameEntryIDChange
       summary: Undocumented!
-      parameters: []
+      parameters:
+        - schema: {}
+          in: path
+          example: No example provided!
+          name: dict_name
+          required: true
+        - schema: {}
+          in: path
+          example: No example provided!
+          name: id
+          required: true
+        - schema: {}
+          in: path
+          example: No example provided!
+          name: change_timestamp
+          required: true
       responses:
         '200':
           content:
@@ -781,11 +826,14 @@ paths:
                 nullable: true
                 x-xml-type: item()
                 type: string
+              example: ''
           description: ''
       tags:
         - _
+      description: no further description
   /restvle/dicts/dict_users:
     get:
+      operationId: _:getDictDictNameDictUsers
       summary: A list of all connecting URIs for the special dict_users dictionary.
       parameters: []
       responses:
@@ -794,34 +842,29 @@ paths:
             application/vnd.wde.v2+json:
               schema:
                 nullable: true
-                x-xml-type: item()
-                type: string
             application/json:
               schema:
                 nullable: true
-                x-xml-type: item()
-                type: string
             application/problem+xml:
               schema:
                 nullable: true
                 x-xml-type: item()
                 type: string
+              example: ''
             application/problem+json:
               schema:
                 nullable: true
-                x-xml-type: item()
-                type: string
             application/hal+json:
               schema:
                 nullable: true
-                x-xml-type: item()
-                type: string
           description: A JSON HAL based list of connecting URIs. (/users)
       tags:
         - dicts
         - public
+      description: no further description
   /restvle/dicts/dict_users/entries:
     post:
+      operationId: _:postDictDictUserEntries404
       summary: Disables these methods for dict_users.
       parameters: []
       responses:
@@ -832,10 +875,13 @@ paths:
                 nullable: true
                 x-xml-type: item()
                 type: string
+              example: ''
           description: Unconditionally returns.
       tags:
         - internal
+      description: no further description
     get:
+      operationId: _:getDictDictUserEntries404
       summary: Disables these methods for dict_users.
       parameters: []
       responses:
@@ -846,20 +892,21 @@ paths:
                 nullable: true
                 x-xml-type: item()
                 type: string
+              example: ''
           description: Unconditionally returns.
       tags:
         - internal
+      description: no further description
   /restvle/dicts/dict_users/users/{userName_or_id}:
-    parameters:
-      - schema:
-          x-xml-type: xs:string
-          type: string
-        in: path
-        name: userName_or_id
-        required: true
     delete:
+      operationId: _:deleteDictDictNameUser
       summary: Remove a user.
-      parameters: []
+      parameters:
+        - schema: {}
+          in: path
+          example: No example provided!
+          name: userName_or_id
+          required: true
       responses:
         '200':
           content:
@@ -868,16 +915,23 @@ paths:
                 nullable: true
                 x-xml-type: item()
                 type: string
+              example: ''
           description: ''
       tags:
         - users
+      description: no further description
     get:
+      operationId: _:getDictDictNameUser
       summary: Undocumented!
       parameters:
-        - schema:
-            x-xml-type: xs:string
-            type: string
+        - schema: {}
+          in: path
+          example: No example provided!
+          name: userName_or_id
+          required: true
+        - schema: {}
           in: header
+          example: No example provided!
           name: Accept
           required: false
       responses:
@@ -886,137 +940,134 @@ paths:
             application/vnd.wde.v2+json:
               schema:
                 nullable: true
-                x-xml-type: item()
-                type: string
             application/json:
               schema:
                 nullable: true
-                x-xml-type: item()
-                type: string
             application/problem+xml:
               schema:
                 nullable: true
                 x-xml-type: item()
                 type: string
+              example: ''
             application/problem+json:
               schema:
                 nullable: true
-                x-xml-type: item()
-                type: string
             application/hal+json:
               schema:
                 nullable: true
-                x-xml-type: item()
-                type: string
           description: ''
       tags:
         - users
+      description: no further description
   /restvle/dicts/restore:
     post:
+      operationId: _:restoreDict
       summary: Restore a new dictionary from a backup.
       parameters:
-        - schema:
-            x-xml-type: xs:string
-            type: string
+        - schema: {}
           in: header
+          example: No example provided!
           name: Content-Type
           description: Required to be application/json else returns 415.
           required: false
-        - schema:
-            x-xml-type: xs:string
-            type: string
+        - schema: {}
           in: header
+          example: No example provided!
           name: Accept
           description: Required to be application/vnd.wde.v2+json else returns 403.
           required: false
       requestBody:
         content:
-          application/xml:
+          application/json:
             schema:
-              nullable: true
-              x-xml-type: item()
-              type: string
-            example: '{ "name": "some_name" }'
+              properties:
+                name:
+                  example: some_name
+                  type: string
+              type: object
+            example:
+              name: some_name
         description: 'JSON describing the new dictionary. Processed as variable: $data'
         required: true
       responses:
         '200':
           content:
             application/vnd.wde.v2+json:
-              schema:
-                x-xml-type: item()
-                type: string
+              schema: {}
+              example: No example provided!
             application/problem+xml:
               schema:
                 x-xml-type: item()
                 type: string
+              example: No example provided!
             application/problem+json:
-              schema:
-                x-xml-type: item()
-                type: string
+              schema: {}
+              example: No example provided!
           description: 201 Created
       tags:
         - dicts
+      description: no further description
   /restvle/dicts:
     post:
+      operationId: _:createDict
       summary: Creates a new dictionary.
       parameters:
-        - schema:
-            x-xml-type: xs:string
-            type: string
+        - schema: {}
           in: header
+          example: No example provided!
           name: Content-Type
           description: Required to be application/json else returns 415.
           required: false
-        - schema:
-            x-xml-type: xs:string
-            type: string
+        - schema: {}
           in: header
+          example: No example provided!
           name: Accept
           description: Required to be application/vnd.wde.v2+json else returns 403.
           required: false
       requestBody:
         content:
-          application/xml:
+          application/json:
             schema:
-              nullable: true
-              x-xml-type: item()
-              type: string
-            example: '{ "name": "some_name" }'
+              properties:
+                name:
+                  example: some_name
+                  type: string
+              type: object
+            example:
+              name: some_name
         description: 'JSON describing the new dictionary. Processed as variable: $data'
         required: true
       responses:
         '200':
           content:
             application/vnd.wde.v2+json:
-              schema:
-                x-xml-type: item()
-                type: string
+              schema: {}
+              example: No example provided!
             application/problem+xml:
               schema:
                 x-xml-type: item()
                 type: string
+              example: No example provided!
             application/problem+json:
-              schema:
-                x-xml-type: item()
-                type: string
+              schema: {}
+              example: No example provided!
           description: 201 Created
       tags:
         - dicts
+      description: no further description
     get:
+      operationId: _:getDicts
       summary: A list of all dictionaries available on this server.
       parameters:
-        - schema:
-            x-xml-type: xs:integer
-            type: string
+        - schema: {}
           in: query
+          example: No example provided!
           name: page
           description: The page page to return based on the given pageSize
           required: false
-        - schema:
-            x-xml-type: xs:integer
-            type: string
+        - schema: {}
           in: query
+          example: No example provided!
           name: pageSize
           description: Number of entries to return per request
           required: false
@@ -1026,28 +1077,21 @@ paths:
             application/vnd.wde.v2+json:
               schema:
                 nullable: true
-                x-xml-type: item()
-                type: string
             application/json:
               schema:
                 nullable: true
-                x-xml-type: item()
-                type: string
             application/problem+xml:
               schema:
                 nullable: true
                 x-xml-type: item()
                 type: string
+              example: ''
             application/problem+json:
               schema:
                 nullable: true
-                x-xml-type: item()
-                type: string
             application/hal+json:
               schema:
                 nullable: true
-                x-xml-type: item()
-                type: string
           description: |-
             A JSON HAL based list of dictionaries. If pageSize is 10 or less the
             individual entries are included.
@@ -1059,35 +1103,31 @@ paths:
         required to provide credentials. Use application/json or
         application/hal+json for unrestricted read access.
   /restvle/dicts/{dict_name}/entries/{id}/changes:
-    parameters:
-      - schema:
-          x-xml-type: xs:string
-          type: string
-        in: path
-        name: dict_name
-        description: An existing dictionary name
-        required: true
-      - schema:
-          x-xml-type: xs:string
-          type: string
-        in: path
-        name: id
-        description: An existing entry id
-        required: true
     get:
+      operationId: _:getDictDictNameEntryIDChanges
       summary: Get all stored previous versions of a particular entry.
       parameters:
-        - schema:
-            x-xml-type: xs:integer
-            type: string
+        - schema: {}
+          in: path
+          example: No example provided!
+          name: dict_name
+          description: An existing dictionary name
+          required: true
+        - schema: {}
+          in: path
+          example: No example provided!
+          name: id
+          description: An existing entry id
+          required: true
+        - schema: {}
           in: query
+          example: No example provided!
           name: page
           description: The page page to return based on the given pageSize
           required: false
-        - schema:
-            x-xml-type: xs:integer
-            type: string
+        - schema: {}
           in: query
+          example: No example provided!
           name: pageSize
           description: Number of entries to return per request
           required: false
@@ -1097,26 +1137,23 @@ paths:
             application/json:
               schema:
                 nullable: true
-                x-xml-type: item()
-                type: string
           description: |-
             A JSON HAL based list of documents. If pageSize is 10 or less the
             individual entries are included.
       tags:
         - _
+      description: no further description
   /restvle/dicts/dict_users/entries/{_}:
-    parameters:
-      - schema:
-          nullable: true
-          x-xml-type: item()
-          type: string
-        in: path
-        name: _
-        description: ignored
-        required: true
     delete:
+      operationId: _:deleteDictDictUserEntry404
       summary: Disables these methods for dict_users.
-      parameters: []
+      parameters:
+        - schema:
+            nullable: true
+          in: path
+          name: _
+          description: ignored
+          required: true
       responses:
         '200':
           content:
@@ -1125,12 +1162,21 @@ paths:
                 nullable: true
                 x-xml-type: item()
                 type: string
+              example: ''
           description: Unconditionally returns 404.
       tags:
         - internal
+      description: no further description
     put:
+      operationId: _:putDictDictUserEntry404
       summary: Disables these methods for dict_users.
-      parameters: []
+      parameters:
+        - schema:
+            nullable: true
+          in: path
+          name: _
+          description: ignored
+          required: true
       responses:
         '200':
           content:
@@ -1139,12 +1185,21 @@ paths:
                 nullable: true
                 x-xml-type: item()
                 type: string
+              example: ''
           description: Unconditionally returns 404.
       tags:
         - internal
+      description: no further description
     get:
+      operationId: _:getDictDictUserEntry404
       summary: Disables these methods for dict_users.
-      parameters: []
+      parameters:
+        - schema:
+            nullable: true
+          in: path
+          name: _
+          description: ignored
+          required: true
       responses:
         '200':
           content:
@@ -1153,14 +1208,16 @@ paths:
                 nullable: true
                 x-xml-type: item()
                 type: string
+              example: ''
           description: Unconditionally returns 404.
       tags:
         - internal
+      description: no further description
 servers:
-  - url: https://dboe-webtest.acdh-dev.oeaw.ac.at/
-    description: Development server
-  - url: https://dboe-data.acdh-dev.oeaw.ac.at/
+  - url: https://example.com
     description: Production server
+  - url: http://localhost:8984
+    description: Local development server
 openapi: 3.0.2
 components:
   securitySchemes:
@@ -1172,22 +1229,6 @@ components:
         Passwords their SHA256 hash is created when set by VLE. There may be
         unhashed passwords on the server for test purpose.
 tags:
-  - name: _
-    description: >-
-      API Problem and JSON HAL based API for editing dictionary like XML
-      datasets.
-  - name: _
-    description: >-
-      API Problem and JSON HAL based API for editing dictionary like XML
-      datasets.
-  - name: _
-    description: >-
-      API Problem and JSON HAL based API for editing dictionary like XML
-      datasets.
-  - name: _
-    description: >-
-      API Problem and JSON HAL based API for editing dictionary like XML
-      datasets.
   - name: _
     description: >-
       API Problem and JSON HAL based API for editing dictionary like XML
