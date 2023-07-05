@@ -1,0 +1,911 @@
+openapi: 3.0.1
+info:
+  title: DBÖ annotation service rest api
+  description: ""
+  version: ""
+servers:
+- url: https://dboeannotation-test.acdh-dev.oeaw.ac.at/
+paths:
+  /api-token-auth/:
+    post:
+      tags:
+      - api-token-auth
+      operationId: api-token-auth_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+              - password
+              - username
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: Valid username for authentication
+                password:
+                  type: string
+                  description: Valid password for authentication
+        required: false
+      responses:
+        201:
+          description: ""
+          content: {}
+      x-codegen-request-body-name: data
+  /api/annotations/:
+    get:
+      tags:
+      - api
+      operationId: api_annotations_list
+      parameters:
+      - name: page
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: title
+        in: query
+        schema:
+          type: string
+      - name: description
+        in: query
+        schema:
+          type: string
+      - name: collection
+        in: query
+        schema:
+          type: string
+      - name: category
+        in: query
+        schema:
+          type: string
+      - name: created_by
+        in: query
+        schema:
+          type: string
+      responses:
+        200:
+          description: ""
+          content: {}
+  /api/annotations/{id}/:
+    get:
+      tags:
+      - api
+      operationId: api_annotations_read
+      parameters:
+      - name: id
+        in: path
+        description: A unique integer value identifying this annotation.
+        required: true
+        schema:
+          type: integer
+      - name: title
+        in: query
+        schema:
+          type: string
+      - name: description
+        in: query
+        schema:
+          type: string
+      - name: collection
+        in: query
+        schema:
+          type: string
+      - name: category
+        in: query
+        schema:
+          type: string
+      - name: created_by
+        in: query
+        schema:
+          type: string
+      responses:
+        200:
+          description: ""
+          content: {}
+  /api/article_edits/:
+    get:
+      tags:
+      - api
+      operationId: api_article_edits_list
+      parameters:
+      - name: page
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: deadline
+        in: query
+        schema:
+          type: string
+      - name: step
+        in: query
+        schema:
+          type: string
+      - name: status
+        in: query
+        schema:
+          type: string
+      - name: last_edited
+        in: query
+        schema:
+          type: string
+      - name: current
+        in: query
+        schema:
+          type: string
+      - name: user
+        in: query
+        schema:
+          type: string
+      - name: lemma
+        in: query
+        schema:
+          type: string
+      - name: finished_date
+        in: query
+        schema:
+          type: string
+      - name: begin_time
+        in: query
+        schema:
+          type: string
+      - name: reporting
+        in: query
+        schema:
+          type: string
+      - name: lemma__id
+        in: query
+        schema:
+          type: string
+      - name: date
+        in: query
+        schema:
+          type: string
+      - name: currentstatus
+        in: query
+        schema:
+          type: string
+      - name: mytasks
+        in: query
+        schema:
+          type: string
+      - name: ordering
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      responses:
+        200:
+          description: ""
+          content: {}
+  /api/article_edits/{id}/:
+    get:
+      tags:
+      - api
+      operationId: api_article_edits_read
+      parameters:
+      - name: id
+        in: path
+        description: A unique integer value identifying this edit_of_article.
+        required: true
+        schema:
+          type: integer
+      - name: deadline
+        in: query
+        schema:
+          type: string
+      - name: step
+        in: query
+        schema:
+          type: string
+      - name: status
+        in: query
+        schema:
+          type: string
+      - name: last_edited
+        in: query
+        schema:
+          type: string
+      - name: current
+        in: query
+        schema:
+          type: string
+      - name: user
+        in: query
+        schema:
+          type: string
+      - name: lemma
+        in: query
+        schema:
+          type: string
+      - name: finished_date
+        in: query
+        schema:
+          type: string
+      - name: begin_time
+        in: query
+        schema:
+          type: string
+      - name: reporting
+        in: query
+        schema:
+          type: string
+      - name: lemma__id
+        in: query
+        schema:
+          type: string
+      - name: date
+        in: query
+        schema:
+          type: string
+      - name: currentstatus
+        in: query
+        schema:
+          type: string
+      - name: mytasks
+        in: query
+        schema:
+          type: string
+      - name: ordering
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      responses:
+        200:
+          description: ""
+          content: {}
+  /api/author_artikel/:
+    get:
+      tags:
+      - api
+      operationId: api_author_artikel_list
+      parameters:
+      - name: page
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      responses:
+        200:
+          description: ""
+          content: {}
+  /api/author_artikel/{id}/:
+    get:
+      tags:
+      - api
+      operationId: api_author_artikel_read
+      parameters:
+      - name: id
+        in: path
+        description: A unique integer value identifying this autor_ artikel.
+        required: true
+        schema:
+          type: integer
+      responses:
+        200:
+          description: ""
+          content: {}
+  /api/categories/:
+    get:
+      tags:
+      - api
+      operationId: api_categories_list
+      parameters:
+      - name: page
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: name
+        in: query
+        schema:
+          type: string
+      responses:
+        200:
+          description: ""
+          content: {}
+  /api/categories/{id}/:
+    get:
+      tags:
+      - api
+      operationId: api_categories_read
+      parameters:
+      - name: id
+        in: path
+        description: A unique integer value identifying this category.
+        required: true
+        schema:
+          type: integer
+      - name: name
+        in: query
+        schema:
+          type: string
+      responses:
+        200:
+          description: ""
+          content: {}
+  /api/collections/:
+    get:
+      tags:
+      - api
+      operationId: api_collections_list
+      parameters:
+      - name: page
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: id
+        in: query
+        schema:
+          type: number
+      - name: id__contains
+        in: query
+        schema:
+          type: number
+      - name: created_by
+        in: query
+        schema:
+          type: string
+      - name: public
+        in: query
+        schema:
+          type: string
+      - name: annotations
+        in: query
+        schema:
+          type: string
+      - name: deleted
+        in: query
+        schema:
+          type: string
+      - name: lemma_id
+        in: query
+        schema:
+          type: string
+      - name: lemma_id__isnull
+        in: query
+        schema:
+          type: string
+      - name: title
+        in: query
+        schema:
+          type: string
+      - name: annotations__category
+        in: query
+        description: Search collections by category of its annotations
+        schema:
+          type: string
+      - name: tag
+        in: query
+        description: Filter collections by tags of its documents
+        schema:
+          type: string
+      - name: category
+        in: query
+        schema:
+          type: string
+      - name: ordering
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      responses:
+        200:
+          description: ""
+          content: {}
+  /api/collections/{_id}/:
+    get:
+      tags:
+      - api
+      operationId: api_collections_read
+      parameters:
+      - name: _id
+        in: path
+        description: A unique integer value identifying this collection.
+        required: true
+        schema:
+          type: integer
+      - name: id
+        in: query
+        schema:
+          type: number
+      - name: id__contains
+        in: query
+        schema:
+          type: number
+      - name: created_by
+        in: query
+        schema:
+          type: string
+      - name: public
+        in: query
+        schema:
+          type: string
+      - name: annotations
+        in: query
+        schema:
+          type: string
+      - name: deleted
+        in: query
+        schema:
+          type: string
+      - name: lemma_id
+        in: query
+        schema:
+          type: string
+      - name: lemma_id__isnull
+        in: query
+        schema:
+          type: string
+      - name: title
+        in: query
+        schema:
+          type: string
+      - name: annotations__category
+        in: query
+        description: Search collections by category of its annotations
+        schema:
+          type: string
+      - name: tag
+        in: query
+        description: Filter collections by tags of its documents
+        schema:
+          type: string
+      - name: category
+        in: query
+        schema:
+          type: string
+      - name: ordering
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      responses:
+        200:
+          description: ""
+          content: {}
+  /api/dboe-query/:
+    get:
+      tags:
+      - api
+      summary: The endpoint to query external elasticsearch index;
+      description: |-
+        The endpoint to query external elasticsearch index;
+        the query matches all fields
+      operationId: api_dboe-query_list
+      responses:
+        200:
+          description: ""
+          content: {}
+  /api/documents/:
+    get:
+      tags:
+      - api
+      operationId: api_documents_list
+      parameters:
+      - name: page
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: es_id
+        in: query
+        schema:
+          type: string
+      - name: index
+        in: query
+        schema:
+          type: string
+      - name: version
+        in: query
+        schema:
+          type: number
+      - name: in_collections
+        in: query
+        schema:
+          type: string
+      - name: tag
+        in: query
+        schema:
+          type: string
+      - name: cache_only
+        in: query
+        schema:
+          type: boolean
+      responses:
+        200:
+          description: ""
+          content: {}
+  /api/documents/{id}/:
+    get:
+      tags:
+      - api
+      operationId: api_documents_read
+      parameters:
+      - name: id
+        in: path
+        description: A unique integer value identifying this es_document.
+        required: true
+        schema:
+          type: integer
+      - name: es_id
+        in: query
+        schema:
+          type: string
+      - name: index
+        in: query
+        schema:
+          type: string
+      - name: version
+        in: query
+        schema:
+          type: number
+      - name: in_collections
+        in: query
+        schema:
+          type: string
+      - name: tag
+        in: query
+        schema:
+          type: string
+      responses:
+        200:
+          description: ""
+          content: {}
+  /api/lemmas/:
+    get:
+      tags:
+      - api
+      operationId: api_lemmas_list
+      parameters:
+      - name: page
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: org
+        in: query
+        schema:
+          type: string
+      - name: norm
+        in: query
+        schema:
+          type: string
+      - name: filename
+        in: query
+        schema:
+          type: string
+      - name: count
+        in: query
+        schema:
+          type: number
+      - name: simplex
+        in: query
+        schema:
+          type: string
+      - name: task
+        in: query
+        schema:
+          type: string
+      - name: lemmatisierung
+        in: query
+        schema:
+          type: string
+      - name: users
+        in: query
+        schema:
+          type: string
+      - name: id
+        in: query
+        schema:
+          type: number
+      - name: simplex__lemmatisierung
+        in: query
+        schema:
+          type: string
+      - name: count__gt
+        in: query
+        schema:
+          type: number
+      - name: count__lt
+        in: query
+        schema:
+          type: number
+      - name: has__norm
+        in: query
+        schema:
+          type: string
+      - name: collection
+        in: query
+        schema:
+          type: string
+      - name: has__simplex
+        in: query
+        schema:
+          type: string
+      - name: ordering
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      responses:
+        200:
+          description: ""
+          content: {}
+  /api/lemmas/{_id}/:
+    get:
+      tags:
+      - api
+      operationId: api_lemmas_read
+      parameters:
+      - name: _id
+        in: path
+        description: A unique integer value identifying this lemma.
+        required: true
+        schema:
+          type: integer
+      - name: org
+        in: query
+        schema:
+          type: string
+      - name: norm
+        in: query
+        schema:
+          type: string
+      - name: filename
+        in: query
+        schema:
+          type: string
+      - name: count
+        in: query
+        schema:
+          type: number
+      - name: simplex
+        in: query
+        schema:
+          type: string
+      - name: task
+        in: query
+        schema:
+          type: string
+      - name: lemmatisierung
+        in: query
+        schema:
+          type: string
+      - name: users
+        in: query
+        schema:
+          type: string
+      - name: id
+        in: query
+        schema:
+          type: number
+      - name: simplex__lemmatisierung
+        in: query
+        schema:
+          type: string
+      - name: count__gt
+        in: query
+        schema:
+          type: number
+      - name: count__lt
+        in: query
+        schema:
+          type: number
+      - name: has__norm
+        in: query
+        schema:
+          type: string
+      - name: collection
+        in: query
+        schema:
+          type: string
+      - name: has__simplex
+        in: query
+        schema:
+          type: string
+      - name: ordering
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      responses:
+        200:
+          description: ""
+          content: {}
+  /api/tags/:
+    get:
+      tags:
+      - api
+      operationId: api_tags_list
+      parameters:
+      - name: page
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: name
+        in: query
+        schema:
+          type: string
+      - name: color
+        in: query
+        schema:
+          type: string
+      - name: emoji
+        in: query
+        schema:
+          type: string
+      responses:
+        200:
+          description: ""
+          content: {}
+  /api/tags/{id}/:
+    get:
+      tags:
+      - api
+      operationId: api_tags_read
+      parameters:
+      - name: id
+        in: path
+        description: A unique integer value identifying this tag.
+        required: true
+        schema:
+          type: integer
+      - name: name
+        in: query
+        schema:
+          type: string
+      - name: color
+        in: query
+        schema:
+          type: string
+      - name: emoji
+        in: query
+        schema:
+          type: string
+      responses:
+        200:
+          description: ""
+          content: {}
+  /api/users/:
+    get:
+      tags:
+      - api
+      operationId: api_users_list
+      parameters:
+      - name: page
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: username
+        in: query
+        schema:
+          type: string
+      responses:
+        200:
+          description: ""
+          content: {}
+  /api/users/{id}/:
+    get:
+      tags:
+      - api
+      operationId: api_users_read
+      parameters:
+      - name: id
+        in: path
+        description: A unique integer value identifying this user.
+        required: true
+        schema:
+          type: integer
+      - name: username
+        in: query
+        schema:
+          type: string
+      responses:
+        200:
+          description: ""
+          content: {}
+  /authenticate/:
+    post:
+      tags:
+      - authenticate
+      operationId: authenticate_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+              - password
+              - username
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: Valid username for authentication
+                password:
+                  type: string
+                  description: Valid password for authentication
+        required: false
+      responses:
+        201:
+          description: ""
+          content: {}
+      x-codegen-request-body-name: data
+  /project-info/:
+    get:
+      tags:
+      - project-info
+      summary: returns a dict providing metadata about the current project
+      description: returns a dict providing metadata about the current project
+      operationId: project-info_list
+      responses:
+        200:
+          description: ""
+          content: {}
+  /version/:
+    get:
+      tags:
+      - version
+      summary: returns a software version
+      description: returns a software version
+      operationId: version_list
+      responses:
+        200:
+          description: ""
+          content: {}
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: Authorization
+      in: header

@@ -1,0 +1,1211 @@
+security:
+  - httpBasicWithSHA256Pws: []
+info:
+  contact:
+    name: Omar Siam
+    url: https://www.oeaw.ac.at/acdh/tools/vle/
+    email: info@example.com
+  license:
+    x-name-is-spdx: true
+    name: MIT
+    url: http://www.opensource.org/licenses/MIT
+  termsOfService: https://example.com/terms-of-use
+  version: 0.4.0
+  title: API Problem and JSON HAL based API for editing dictionary like XML datasets
+  description: API Problem and JSON HAL based API for editing dictionary like XML datasets
+paths:
+  /restvle/runtime.json: {}
+  /restvle/dicts/{dict_name}/backup:
+    post:
+      summary: Creates a backup of a dictionary.
+      parameters:
+        - schema:
+            x-xml-type: xs:string
+            type: string
+          in: header
+          name: Content-Type
+          description: Required to be application/json else returns 415.
+          required: false
+        - schema:
+            x-xml-type: xs:string
+            type: string
+          in: header
+          name: Accept
+          description: Required to be application/vnd.wde.v2+json else returns 403.
+          required: false
+        - schema:
+            x-xml-type: xs:string
+            type: string
+          in: header
+          name: Authorization
+          required: false
+      responses:
+        '200':
+          content:
+            application/vnd.wde.v2+json:
+              schema:
+                x-xml-type: item()
+                type: string
+            application/problem+xml:
+              schema:
+                x-xml-type: item()
+                type: string
+            application/problem+json:
+              schema:
+                x-xml-type: item()
+                type: string
+          description: 201 Created
+      tags:
+        - dicts
+    parameters:
+      - schema:
+          x-xml-type: xs:string
+          type: string
+        in: path
+        name: dict_name
+        description: Name of an existing dictionary
+        required: true
+  /restvle/dicts/{dict_name}/entries/{id}:
+    parameters:
+      - schema:
+          x-xml-type: xs:string
+          type: string
+        in: path
+        name: dict_name
+        description: Name of an existing dictionary
+        required: true
+      - schema:
+          x-xml-type: xs:string
+          type: string
+        in: path
+        name: id
+        description: The @xml:id or @ID of the entry to be deleted.
+        required: true
+    delete:
+      summary: Remove an entry.
+      parameters:
+        - schema:
+            x-xml-type: xs:string
+            type: string
+          in: header
+          name: Authorization
+          description: Required for getting the user for the changelog.
+          required: false
+      responses:
+        '200':
+          content:
+            application/xml:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+          description: 204 No Content
+      tags:
+        - entries
+      description: >-
+        The entry is saved in the changelog db before it is removed. The
+        authorized user has to won the lock to do this. Otherwise a 422 error is
+        returned.
+    put:
+      summary: Change a dictionary entry.
+      parameters:
+        - schema:
+            x-xml-type: xs:string
+            type: string
+          in: header
+          name: Content-Type
+          description: Required to be application/json else returns 415.
+          required: false
+        - schema:
+            x-xml-type: xs:string
+            type: string
+          in: header
+          name: Accept
+          description: Required to be application/vnd.wde.v2+json else returns 403.
+          required: false
+        - schema:
+            x-xml-type: xs:string
+            type: string
+          in: header
+          name: Authorization
+          description: Required for getting the user for the changelog.
+          required: false
+      requestBody:
+        content:
+          application/xml:
+            schema:
+              nullable: true
+              x-xml-type: item()
+              type: string
+            example: |-
+              {
+                "sid": "The internal ID. May be empty string.",
+                "lemma": "A lemma. May be empty string.",
+                "entry": "The entry as XML fragment.",
+                "storedEntryMd5": "Optional: the last known checksum for the entry in the DB.",
+                "owner": "Optional: set (or clear) the owner of an entry. TODO: enforce only write own",
+                "status": "Optional: set (or clear) a status string. 'released' was used with some special meaning in the past"
+              }
+        description: 'JSON describing the changed entry. Processed as variable: $userData'
+        required: true
+      responses:
+        '200':
+          content:
+            application/vnd.wde.v2+json:
+              schema:
+                x-xml-type: item()
+                type: string
+            application/problem+xml:
+              schema:
+                x-xml-type: item()
+                type: string
+            application/problem+json:
+              schema:
+                x-xml-type: item()
+                type: string
+          description: >-
+            The changed entry. Including the changelog entry the server
+            generated.
+      tags:
+        - entries
+      description: >-
+        The entry is saved in the changelog db before it is changed . The
+        authorized user has to own the lock to do this. Otherwise a 422 error is
+        returned.
+    get:
+      summary: Get a particular entry from a dictionary.
+      parameters:
+        - schema:
+            nullable: true
+            x-xml-type: xs:string
+            type: string
+          in: query
+          name: lock
+          description: |-
+            Whether to lock the entry for later saving it.
+
+            Can be a time in seconds that tells how long the entry should be
+            locked. Can be true for the maximum amount of time allowed.
+            After at most that timeout the entry needs to be locked again using
+            this function.
+          required: false
+        - schema:
+            nullable: true
+            x-xml-type: xs:string
+            type: string
+          in: query
+          name: format
+          required: false
+        - schema:
+            x-xml-type: xs:string
+            type: string
+          in: header
+          name: Accept
+          description: Required to be application/vnd.wde.v2+json else returns 403.
+          required: false
+        - schema:
+            x-xml-type: xs:string
+            type: string
+          in: header
+          name: Authorization
+          description: Required for locking the entry otherwise unused.
+          required: false
+      responses:
+        '200':
+          content:
+            application/vnd.wde.v2+json:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+            application/json:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+            application/problem+xml:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+            application/problem+json:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+            application/hal+json:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+          description: >-
+            A JSON HAL document containing the entry XML and further extracted
+            data.
+      tags:
+        - entries
+        - public
+      description: >-
+        Please note that a client sending Accept application/vnd.wde.v2+json is
+        required to provide credentials. Use application/json or
+        application/hal+json for unrestricted read access. To later save the
+        changed entry it has to be locked using the lock parameter. This
+        parameter can only be used by clients that accept
+        application/vnd.wde.v2+json thus credentials are required
+  /restvle/openapi.json: {}
+  /restvle:
+    get:
+      summary: A static collection showing valid next URLs.
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                x-xml-type: item()
+                type: string
+            application/problem+xml:
+              schema:
+                x-xml-type: item()
+                type: string
+            application/problem+json:
+              schema:
+                x-xml-type: item()
+                type: string
+            application/hal+json:
+              schema:
+                x-xml-type: item()
+                type: string
+          description: |-
+            A JSON HAL based list of documents. If pageSize is 10 or less the
+            individual entries are included.
+      tags:
+        - public
+      description: >-
+        Please note that a client sending Accept application/vnd.wde.v2+json is
+        required to provide credentials. Use application/json or
+        application/hal+json for unrestricted read access.
+  /restvle/dicts/dict_users/users:
+    post:
+      summary: Create a user.
+      parameters:
+        - schema:
+            x-xml-type: xs:string
+            type: string
+          in: header
+          name: Content-Type
+          required: false
+        - schema:
+            x-xml-type: xs:string
+            type: string
+          in: header
+          name: Accept
+          required: false
+      requestBody:
+        content:
+          application/xml:
+            schema:
+              nullable: true
+              x-xml-type: item()
+              type: string
+            example: |-
+              {
+                "id": "The internal ID. When creating a new user this will be filled in automatically.",
+                "userID": "The user id or username.",
+                "pw": "The password for that user and that table.",
+                "read": "Whether the user has read access.",
+                "write": "Whether the user has write access.",
+                "writeown": "Whether the user may change entries that dont belong to her.",
+                "table": "A table name. Will only be returned on administrative queries on the special dict_users storage."
+              }
+        description: ' Processed as variable: $userData'
+        required: true
+      responses:
+        '200':
+          content:
+            application/vnd.wde.v2+json:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+            application/problem+xml:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+            application/problem+json:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+          description: ''
+      tags:
+        - users
+    get:
+      summary: List users.
+      parameters:
+        - schema:
+            x-xml-type: xs:integer
+            type: string
+          in: query
+          name: page
+          required: false
+        - schema:
+            x-xml-type: xs:integer
+            type: string
+          in: query
+          name: pageSize
+          required: false
+      responses:
+        '200':
+          content:
+            application/vnd.wde.v2+json:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+            application/json:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+            application/problem+xml:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+            application/problem+json:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+            application/hal+json:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+          description: ''
+      tags:
+        - users
+  /restvle/dicts/{dict_name}:
+    parameters:
+      - schema:
+          x-xml-type: xs:string
+          type: string
+        in: path
+        name: dict_name
+        description: Name of an existing dictionary
+        required: true
+    delete:
+      summary: Remove a dictionary.
+      parameters:
+        - schema:
+            x-xml-type: xs:string
+            type: string
+          in: header
+          name: Authorization
+          required: false
+      responses:
+        '200':
+          content:
+            application/xml:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+          description: 204 No Content
+      tags:
+        - dicts
+      description: >-
+        Removes all the databases making up a dictionary including the changes
+        history. Basically any dictionary starting with $dict_name is deleted.
+        Also all users entries for this dictionary are removed. Can also remove
+        dict_users if it is the last remaining dictionary
+    get:
+      summary: A list of all connecting URIs for a particular dictionary.
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/vnd.wde.v2+json:
+              schema:
+                x-xml-type: item()
+                type: string
+            application/json:
+              schema:
+                x-xml-type: item()
+                type: string
+            application/problem+xml:
+              schema:
+                x-xml-type: item()
+                type: string
+            application/problem+json:
+              schema:
+                x-xml-type: item()
+                type: string
+            application/hal+json:
+              schema:
+                x-xml-type: item()
+                type: string
+          description: A JSON HAL based list of connecting URIs.
+      tags:
+        - dicts
+        - public
+      description: >-
+        Please note that a client sending Accept application/vnd.wde.v2+json is
+        required to provide credentials. Use application/json or
+        application/hal+json for unrestricted read access.
+  /restvle/dicts/{dict_name}/entries:
+    post:
+      summary: Creates a new dictionary entry.
+      parameters:
+        - schema:
+            x-xml-type: xs:string
+            type: string
+          in: header
+          name: Content-Type
+          description: Required to be application/json else returns 415.
+          required: false
+        - schema:
+            x-xml-type: xs:string
+            type: string
+          in: header
+          name: Accept
+          description: Required to be application/vnd.wde.v2+json else returns 403.
+          required: false
+        - schema:
+            x-xml-type: xs:string
+            type: string
+          in: header
+          name: Authorization
+          description: Required for getting the user for the changelog
+          required: true
+      requestBody:
+        content:
+          application/xml:
+            schema:
+              nullable: true
+              x-xml-type: item()
+              type: string
+            example: |-
+              {
+                "sid": "The internal ID. May be empty string.",
+                "lemma": "A lemma. May be empty string.",
+                "entry": "The entry as XML fragment."
+              } or
+              entries: [{
+                "sid": "The internal ID. May be empty string.",
+                "lemma": "A lemma. May be empty string.",
+                "entry": "The entry as XML fragment."
+              }]
+        description: 'JSON describing the new entry. Processed as variable: $userData'
+        required: true
+      responses:
+        '200':
+          content:
+            application/vnd.wde.v2+json:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+            application/problem+xml:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+            application/problem+json:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+          description: 201 Created
+      tags:
+        - entries
+    patch:
+      summary: Change entries in a dictionary.
+      parameters:
+        - schema:
+            nullable: true
+            x-xml-type: xs:string
+            type: string
+          in: query
+          name: as-user
+          description: >-
+            A user a super user changes the supplied entries for. Returns 403 if
+            used by a normal user.
+          required: false
+        - schema:
+            x-xml-type: xs:string
+            type: string
+          in: header
+          name: Content-Type
+          description: Required to be application/json else returns 415.
+          required: false
+        - schema:
+            x-xml-type: xs:string
+            type: string
+          in: header
+          name: Accept
+          description: Required to be application/vnd.wde.v2+json else returns 403.
+          required: false
+        - schema:
+            x-xml-type: xs:string
+            type: string
+          in: header
+          name: Authorization
+          description: Required for getting the user for the changelog.
+          required: false
+      requestBody:
+        content:
+          application/xml:
+            schema:
+              nullable: true
+              x-xml-type: item()
+              type: string
+            example: |-
+              {entries: [{
+                "id": "The xml:id of the entry to change",
+                "sid": "The internal ID. May be empty string.",
+                "lemma": "A lemma. May be empty string.",
+                "entry": "The entry as XML fragment.",
+                "storedEntryMd5": "Optional: the last known checksum for the entry in the DB.",
+                "owner": "Optional: set (or clear) the owner of an entry. TODO: enforce only write own",
+                "status": "Optional: set (or clear) a status string. 'released' was used with some special meaning in the past"
+              }]}
+        description: 'JSON describing the changed entry. Processed as variable: $userData'
+        required: true
+      responses:
+        '200':
+          content:
+            application/vnd.wde.v2+json:
+              schema:
+                x-xml-type: item()
+                type: string
+            application/problem+xml:
+              schema:
+                x-xml-type: item()
+                type: string
+            application/problem+json:
+              schema:
+                x-xml-type: item()
+                type: string
+          description: >-
+            The changed entry. Including the changelog entry the server
+            generated.
+      tags:
+        - entries
+      description: >-
+        The entries are saved in the changelog db before they is changed . The
+        authorized user has to own the lock for all the entries to do this.
+        Otherwise a 422 error is returned.
+    parameters:
+      - schema:
+          x-xml-type: xs:string
+          type: string
+        in: path
+        name: dict_name
+        required: true
+    get:
+      summary: 'A list of all entries for a particular dictionary. TODO: Limit by query.'
+      parameters:
+        - schema:
+            x-xml-type: xs:integer
+            type: string
+          in: query
+          example: '1'
+          name: page
+          description: The page page to return based on the given pageSize
+          required: false
+        - schema:
+            x-xml-type: xs:integer
+            type: string
+          in: query
+          example: '10'
+          name: pageSize
+          description: Number of entries to return per request
+          required: false
+        - schema:
+            nullable: true
+            x-xml-type: xs:string
+            type: string
+          in: query
+          name: id
+          description: Filter by ids starting with this string
+          required: false
+        - schema:
+            nullable: true
+            x-xml-type: xs:string
+            type: string
+          in: query
+          name: ids
+          description: >-
+            Return entries matching exactly the ids provided as a comma
+            separated list
+          required: false
+        - schema:
+            nullable: true
+            x-xml-type: xs:string
+            type: string
+          in: query
+          name: q
+          description: |-
+            A name of a query template stored in the profile (everyone) or
+            an XPath or XQuery to exeute as filter (only admins for this dict)
+          required: false
+        - schema:
+            nullable: true
+            x-xml-type: xs:string
+            type: string
+          in: query
+          name: sort
+          description: >-
+            One of "asc", "desc" or "none" (everyone) or
+
+            an XPath or XQuery to execute for sorting the filtered results (only
+            admins for this dict)
+          required: false
+        - schema:
+            nullable: true
+            x-xml-type: xs:string
+            type: string
+          in: query
+          name: altLemma
+          description: >-
+            A name of an alternative lemma definition to use (specified in
+            profile)
+          required: false
+        - schema:
+            nullable: true
+            x-xml-type: xs:string
+            type: string
+          in: query
+          name: lock
+          description: >-
+            true or an amount of time in seconds the selected entries should be
+            locked for editing
+          required: false
+        - schema:
+            nullable: true
+            x-xml-type: xs:string
+            type: string
+          in: query
+          name: format
+          description: |-
+            An XML format the TEI should be transformed to (e. g. html)
+            Only authenticated users.
+          required: false
+        - schema:
+            x-xml-type: xs:string
+            type: string
+          in: header
+          name: Authorization
+          description: >-
+            Used to determine if user is allowed to use any XQuery or XPath for
+            q and sort
+          required: false
+        - schema:
+            nullable: true
+            x-xml-type: xs:string
+            type: string
+          in: header
+          name: Accept
+          description: Used to determine if the user was authenticated or is anonymous.
+          required: false
+      responses:
+        '200':
+          content:
+            application/vnd.wde.v2+json:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+            application/json:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+            application/problem+xml:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+            application/problem+json:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+            application/hal+json:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+          description: A JSON HAL based list of entry URIs.
+      tags:
+        - entries
+        - public
+      description: >-
+        There seems to be a limit of about 80 ids that can be specified at any
+        one time. This will be the URI to search for a particular entry by
+        numerous filter an search options. Search option are defined as
+        queryTemplates in profiles. They can be used as name=value query
+        parameters. Please note that a client sending Accept
+        application/vnd.wde.v2+json is required to provide credentials. Use
+        application/json or application/hal+json for unrestricted read access.
+  /restvle/dicts/{dict_name}/entries/{id}/changes/{change_timestamp}:
+    parameters:
+      - schema:
+          x-xml-type: xs:string
+          type: string
+        in: path
+        name: dict_name
+        required: true
+      - schema:
+          x-xml-type: xs:string
+          type: string
+        in: path
+        name: id
+        required: true
+      - schema:
+          x-xml-type: xs:string
+          type: string
+        in: path
+        name: change_timestamp
+        required: true
+    get:
+      summary: Undocumented!
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/xml:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+          description: ''
+      tags:
+        - _
+  /restvle/dicts/dict_users:
+    get:
+      summary: A list of all connecting URIs for the special dict_users dictionary.
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/vnd.wde.v2+json:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+            application/json:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+            application/problem+xml:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+            application/problem+json:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+            application/hal+json:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+          description: A JSON HAL based list of connecting URIs. (/users)
+      tags:
+        - dicts
+        - public
+  /restvle/dicts/dict_users/entries:
+    post:
+      summary: Disables these methods for dict_users.
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/xml:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+          description: Unconditionally returns.
+      tags:
+        - internal
+    get:
+      summary: Disables these methods for dict_users.
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/xml:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+          description: Unconditionally returns.
+      tags:
+        - internal
+  /restvle/dicts/dict_users/users/{userName_or_id}:
+    parameters:
+      - schema:
+          x-xml-type: xs:string
+          type: string
+        in: path
+        name: userName_or_id
+        required: true
+    delete:
+      summary: Remove a user.
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/xml:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+          description: ''
+      tags:
+        - users
+    get:
+      summary: Undocumented!
+      parameters:
+        - schema:
+            x-xml-type: xs:string
+            type: string
+          in: header
+          name: Accept
+          required: false
+      responses:
+        '200':
+          content:
+            application/vnd.wde.v2+json:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+            application/json:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+            application/problem+xml:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+            application/problem+json:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+            application/hal+json:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+          description: ''
+      tags:
+        - users
+  /restvle/dicts/restore:
+    post:
+      summary: Restore a new dictionary from a backup.
+      parameters:
+        - schema:
+            x-xml-type: xs:string
+            type: string
+          in: header
+          name: Content-Type
+          description: Required to be application/json else returns 415.
+          required: false
+        - schema:
+            x-xml-type: xs:string
+            type: string
+          in: header
+          name: Accept
+          description: Required to be application/vnd.wde.v2+json else returns 403.
+          required: false
+      requestBody:
+        content:
+          application/xml:
+            schema:
+              nullable: true
+              x-xml-type: item()
+              type: string
+            example: '{ "name": "some_name" }'
+        description: 'JSON describing the new dictionary. Processed as variable: $data'
+        required: true
+      responses:
+        '200':
+          content:
+            application/vnd.wde.v2+json:
+              schema:
+                x-xml-type: item()
+                type: string
+            application/problem+xml:
+              schema:
+                x-xml-type: item()
+                type: string
+            application/problem+json:
+              schema:
+                x-xml-type: item()
+                type: string
+          description: 201 Created
+      tags:
+        - dicts
+  /restvle/dicts:
+    post:
+      summary: Creates a new dictionary.
+      parameters:
+        - schema:
+            x-xml-type: xs:string
+            type: string
+          in: header
+          name: Content-Type
+          description: Required to be application/json else returns 415.
+          required: false
+        - schema:
+            x-xml-type: xs:string
+            type: string
+          in: header
+          name: Accept
+          description: Required to be application/vnd.wde.v2+json else returns 403.
+          required: false
+      requestBody:
+        content:
+          application/xml:
+            schema:
+              nullable: true
+              x-xml-type: item()
+              type: string
+            example: '{ "name": "some_name" }'
+        description: 'JSON describing the new dictionary. Processed as variable: $data'
+        required: true
+      responses:
+        '200':
+          content:
+            application/vnd.wde.v2+json:
+              schema:
+                x-xml-type: item()
+                type: string
+            application/problem+xml:
+              schema:
+                x-xml-type: item()
+                type: string
+            application/problem+json:
+              schema:
+                x-xml-type: item()
+                type: string
+          description: 201 Created
+      tags:
+        - dicts
+    get:
+      summary: A list of all dictionaries available on this server.
+      parameters:
+        - schema:
+            x-xml-type: xs:integer
+            type: string
+          in: query
+          name: page
+          description: The page page to return based on the given pageSize
+          required: false
+        - schema:
+            x-xml-type: xs:integer
+            type: string
+          in: query
+          name: pageSize
+          description: Number of entries to return per request
+          required: false
+      responses:
+        '200':
+          content:
+            application/vnd.wde.v2+json:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+            application/json:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+            application/problem+xml:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+            application/problem+json:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+            application/hal+json:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+          description: |-
+            A JSON HAL based list of dictionaries. If pageSize is 10 or less the
+            individual entries are included.
+      tags:
+        - dicts
+        - public
+      description: >-
+        Please note that a client sending Accept application/vnd.wde.v2+json is
+        required to provide credentials. Use application/json or
+        application/hal+json for unrestricted read access.
+  /restvle/dicts/{dict_name}/entries/{id}/changes:
+    parameters:
+      - schema:
+          x-xml-type: xs:string
+          type: string
+        in: path
+        name: dict_name
+        description: An existing dictionary name
+        required: true
+      - schema:
+          x-xml-type: xs:string
+          type: string
+        in: path
+        name: id
+        description: An existing entry id
+        required: true
+    get:
+      summary: Get all stored previous versions of a particular entry.
+      parameters:
+        - schema:
+            x-xml-type: xs:integer
+            type: string
+          in: query
+          name: page
+          description: The page page to return based on the given pageSize
+          required: false
+        - schema:
+            x-xml-type: xs:integer
+            type: string
+          in: query
+          name: pageSize
+          description: Number of entries to return per request
+          required: false
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+          description: |-
+            A JSON HAL based list of documents. If pageSize is 10 or less the
+            individual entries are included.
+      tags:
+        - _
+  /restvle/dicts/dict_users/entries/{_}:
+    parameters:
+      - schema:
+          nullable: true
+          x-xml-type: item()
+          type: string
+        in: path
+        name: _
+        description: ignored
+        required: true
+    delete:
+      summary: Disables these methods for dict_users.
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/xml:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+          description: Unconditionally returns 404.
+      tags:
+        - internal
+    put:
+      summary: Disables these methods for dict_users.
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/xml:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+          description: Unconditionally returns 404.
+      tags:
+        - internal
+    get:
+      summary: Disables these methods for dict_users.
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/xml:
+              schema:
+                nullable: true
+                x-xml-type: item()
+                type: string
+          description: Unconditionally returns 404.
+      tags:
+        - internal
+servers:
+  - url: https://dboe-webtest.acdh-dev.oeaw.ac.at/
+    description: Development server
+  - url: https://dboe-data.acdh-dev.oeaw.ac.at/
+    description: Production server
+openapi: 3.0.2
+components:
+  securitySchemes:
+    httpBasicWithSHA256Pws:
+      scheme: basic
+      type: http
+      description: >-
+        This service uses HTTP Basic authentication. To somewhat protect the
+        Passwords their SHA256 hash is created when set by VLE. There may be
+        unhashed passwords on the server for test purpose.
+tags:
+  - name: _
+    description: >-
+      API Problem and JSON HAL based API for editing dictionary like XML
+      datasets.
+  - name: _
+    description: >-
+      API Problem and JSON HAL based API for editing dictionary like XML
+      datasets.
+  - name: _
+    description: >-
+      API Problem and JSON HAL based API for editing dictionary like XML
+      datasets.
+  - name: _
+    description: >-
+      API Problem and JSON HAL based API for editing dictionary like XML
+      datasets.
+  - name: _
+    description: >-
+      API Problem and JSON HAL based API for editing dictionary like XML
+      datasets.
+  - name: dicts
+    description: >-
+      Query and manipulate dictionaries and the special users "dictionary". See
+      dict.xqm.
+  - name: entries
+    description: Query and manipulate entries in the dictionary. See entries.xqm
+  - name: public
+    description: >-
+      The public part of the API. No authentication and world-readable unless
+      the dictionary is restriced or Accept is application/vnd.wde.v2+json
+  - name: users
+    description: >-
+      Manipulate the users and user rights for a dictionary. Can also be used by
+      global admin users to manipulate users for any table when used with
+      "dict_users". See users.xqm
+  - name: internal
+    description: Override the default behavior.

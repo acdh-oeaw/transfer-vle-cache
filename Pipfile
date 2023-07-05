@@ -1,0 +1,15 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+aiohttp = "~=3.8.4"
+nest-asyncio = "~=1.5.6"
+
+[dev-packages]
+openapi-python-generator = "*"
+
+[requires]
+python_version = "3.9"
+python_full_version = "3.9.17"
