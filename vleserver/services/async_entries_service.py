@@ -36,7 +36,8 @@ async def _getDictDictNameEntry(
             params=query_params,
         ) as inital_response:
             if inital_response.status != 200:
-                raise HTTPException(inital_response.status, f" failed with status code: {inital_response.status}: {await inital_response.json()}")
+                error_response = await inital_response.json()
+                raise HTTPException(inital_response.status, error_response['title'])
             response = await inital_response.json()
 
             return response
@@ -68,10 +69,11 @@ async def _changeEntry(
     async with aiohttp.ClientSession(headers=headers) as session:
         async with session.request("put", base_path + path, params=query_params, json=data) as inital_response:
             if inital_response.status != 200:
-                raise HTTPException(inital_response.status, f" failed with status code: {inital_response.status}: {await inital_response.json()}")
+                error_response = await inital_response.json()
+                raise HTTPException(inital_response.status, error_response['title'])
             response = await inital_response.json()
 
-            return None
+            return response
 
 
 async def _deleteDictDictNameEntry(
@@ -97,9 +99,9 @@ async def _deleteDictDictNameEntry(
             base_path + path,
             params=query_params,
         ) as inital_response:
-            if inital_response.status != 200:
-                raise HTTPException(inital_response.status, f" failed with status code: {inital_response.status}: {await inital_response.json()}")
-            response = await inital_response.json()
+            if inital_response.status != 204:
+                error_response = await inital_response.json()
+                raise HTTPException(inital_response.status, error_response['title'])
 
             return None
 
@@ -149,7 +151,8 @@ async def _getDictDictNameEntries(
             params=query_params,
         ) as inital_response:
             if inital_response.status != 200:
-                raise HTTPException(inital_response.status, f" failed with status code: {inital_response.status}: {await inital_response.json()}")
+                error_response = await inital_response.json()
+                raise HTTPException(inital_response.status, error_response['title'], error_response)
             response = await inital_response.json()
 
             return response
@@ -179,9 +182,9 @@ async def _createEntry(
 
     async with aiohttp.ClientSession(headers=headers) as session:
         async with session.request("post", base_path + path, params=query_params, json=data) as inital_response:
-            if inital_response.status != 200:
-                raise HTTPException(inital_response.status, f" failed with status code: {inital_response.status}: {await inital_response.json()}")
-            response = await inital_response.json()
+            if inital_response.status != 201:
+                error_response = await inital_response.json()
+                raise HTTPException(inital_response.status, error_response['title'], error_response)
 
             return None
 
@@ -212,7 +215,8 @@ async def _changeEntries(
     async with aiohttp.ClientSession(headers=headers) as session:
         async with session.request("patch", base_path + path, params=query_params, json=data) as inital_response:
             if inital_response.status != 200:
-                raise HTTPException(inital_response.status, f" failed with status code: {inital_response.status}: {await inital_response.json()}")
+                error_response = await inital_response.json()
+                raise HTTPException(inital_response.status, error_response['title'], error_response)
             response = await inital_response.json()
 
-            return None
+            return response

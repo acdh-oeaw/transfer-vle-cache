@@ -1,5 +1,5 @@
 import os
-from typing import Optional, Union
+from typing import Optional, Union, Dict
 
 from pydantic import BaseModel, Field
 
@@ -17,10 +17,11 @@ class APIConfig(BaseModel):
 
 
 class HTTPException(Exception):
-    def __init__(self, status_code: int, message: str):
+    def __init__(self, status_code: int, message: str, details: Dict):
         self.status_code = status_code
         self.message = message
-        super().__init__(f"{status_code} {message}")
+        self.details = details
+        super().__init__(f"{status_code} {message}: {details['detail']}")
 
     def __str__(self):
-        return f"{self.status_code} {self.message}"
+        return f"{self.status_code} {self.message}: {self.details['detail']}"
