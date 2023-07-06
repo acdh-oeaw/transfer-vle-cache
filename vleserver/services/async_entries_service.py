@@ -4,7 +4,6 @@ from typing import *
 import aiohttp
 
 from ..api_config import APIConfig, HTTPException
-from ..models import *
 
 
 async def _getDictDictNameEntry(
@@ -22,10 +21,8 @@ async def _getDictDictNameEntry(
     path = f"/restvle/dicts/{dict_name}/entries/{id}"
     headers = {
         "Content-Type": "application/json",
-        "Accept": "application/json",
-        "Authorization": f"Bearer { api_config.get_access_token() }",
-        "Accept": Accept,
-        "Authorization": Authorization,
+        "Accept": "application/vnd.wde.v2+json",
+        "Authorization": f"Basic { api_config.get_access_token() }",
     }
 
     query_params: Dict[str, Any] = {"lock": lock, "format": format}
@@ -39,7 +36,7 @@ async def _getDictDictNameEntry(
             params=query_params,
         ) as inital_response:
             if inital_response.status != 200:
-                raise HTTPException(inital_response.status, f" failed with status code: {inital_response.status}")
+                raise HTTPException(inital_response.status, f" failed with status code: {inital_response.status}: {await inital_response.json()}")
             response = await inital_response.json()
 
             return response
@@ -60,11 +57,8 @@ async def _changeEntry(
     path = f"/restvle/dicts/{dict_name}/entries/{id}"
     headers = {
         "Content-Type": "application/json",
-        "Accept": "application/json",
-        "Authorization": f"Bearer { api_config.get_access_token() }",
-        "Content-Type": Content_Type,
-        "Accept": Accept,
-        "Authorization": Authorization,
+        "Accept": "application/vnd.wde.v2+json",
+        "Authorization": f"Basic { api_config.get_access_token() }",
     }
 
     query_params: Dict[str, Any] = {}
@@ -74,7 +68,7 @@ async def _changeEntry(
     async with aiohttp.ClientSession(headers=headers) as session:
         async with session.request("put", base_path + path, params=query_params, json=data) as inital_response:
             if inital_response.status != 200:
-                raise HTTPException(inital_response.status, f" failed with status code: {inital_response.status}")
+                raise HTTPException(inital_response.status, f" failed with status code: {inital_response.status}: {await inital_response.json()}")
             response = await inital_response.json()
 
             return None
@@ -89,9 +83,8 @@ async def _deleteDictDictNameEntry(
     path = f"/restvle/dicts/{dict_name}/entries/{id}"
     headers = {
         "Content-Type": "application/json",
-        "Accept": "application/json",
-        "Authorization": f"Bearer { api_config.get_access_token() }",
-        "Authorization": Authorization,
+        "Accept": "application/vnd.wde.v2+json",
+        "Authorization": f"Basic { api_config.get_access_token() }",
     }
 
     query_params: Dict[str, Any] = {}
@@ -105,7 +98,7 @@ async def _deleteDictDictNameEntry(
             params=query_params,
         ) as inital_response:
             if inital_response.status != 200:
-                raise HTTPException(inital_response.status, f" failed with status code: {inital_response.status}")
+                raise HTTPException(inital_response.status, f" failed with status code: {inital_response.status}: {await inital_response.json()}")
             response = await inital_response.json()
 
             return None
@@ -131,11 +124,8 @@ async def _getDictDictNameEntries(
     base_path = api_config.base_path
     path = f"/restvle/dicts/{dict_name}/entries"
     headers = {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-        "Authorization": f"Bearer { api_config.get_access_token() }",
-        "Authorization": Authorization,
-        "Accept": Accept,
+        "Accept": "application/vnd.wde.v2+json",
+        "Authorization": f"Basic { api_config.get_access_token() }",
     }
 
     query_params: Dict[str, Any] = {
@@ -159,7 +149,7 @@ async def _getDictDictNameEntries(
             params=query_params,
         ) as inital_response:
             if inital_response.status != 200:
-                raise HTTPException(inital_response.status, f" failed with status code: {inital_response.status}")
+                raise HTTPException(inital_response.status, f" failed with status code: {inital_response.status}: {await inital_response.json()}")
             response = await inital_response.json()
 
             return response
@@ -179,11 +169,8 @@ async def _createEntry(
     path = f"/restvle/dicts/{dict_name}/entries"
     headers = {
         "Content-Type": "application/json",
-        "Accept": "application/json",
-        "Authorization": f"Bearer { api_config.get_access_token() }",
-        "Content-Type": Content_Type,
-        "Accept": Accept,
-        "Authorization": Authorization,
+        "Accept": "application/vnd.wde.v2+json",
+        "Authorization": f"Basic { api_config.get_access_token() }",
     }
 
     query_params: Dict[str, Any] = {}
@@ -193,7 +180,7 @@ async def _createEntry(
     async with aiohttp.ClientSession(headers=headers) as session:
         async with session.request("post", base_path + path, params=query_params, json=data) as inital_response:
             if inital_response.status != 200:
-                raise HTTPException(inital_response.status, f" failed with status code: {inital_response.status}")
+                raise HTTPException(inital_response.status, f" failed with status code: {inital_response.status}: {await inital_response.json()}")
             response = await inital_response.json()
 
             return None
@@ -214,11 +201,8 @@ async def _changeEntries(
     path = f"/restvle/dicts/{dict_name}/entries"
     headers = {
         "Content-Type": "application/json",
-        "Accept": "application/json",
-        "Authorization": f"Bearer { api_config.get_access_token() }",
-        "Content-Type": Content_Type,
-        "Accept": Accept,
-        "Authorization": Authorization,
+        "Accept": "application/vnd.wde.v2+json",
+        "Authorization": f"Basic { api_config.get_access_token() }",
     }
 
     query_params: Dict[str, Any] = {"as-user": as_user}
@@ -228,7 +212,7 @@ async def _changeEntries(
     async with aiohttp.ClientSession(headers=headers) as session:
         async with session.request("patch", base_path + path, params=query_params, json=data) as inital_response:
             if inital_response.status != 200:
-                raise HTTPException(inital_response.status, f" failed with status code: {inital_response.status}")
+                raise HTTPException(inital_response.status, f" failed with status code: {inital_response.status}: {await inital_response.json()}")
             response = await inital_response.json()
 
             return None

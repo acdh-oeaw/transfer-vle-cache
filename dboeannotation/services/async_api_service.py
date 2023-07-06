@@ -4,7 +4,6 @@ from typing import *
 import aiohttp
 
 from ..api_config import APIConfig, HTTPException
-from ..models import *
 
 
 async def api_annotations_list(
