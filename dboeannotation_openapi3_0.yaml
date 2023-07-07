@@ -9,7 +9,7 @@ info:
 servers:
   - url: https://dboeannotation-test.acdh-dev.oeaw.ac.at
 paths:
-  /api-token-auth:
+  /api-token-auth/:
     post:
       description: Create an API token
       tags:
@@ -1654,6 +1654,11 @@ paths:
           description: Number of results to return per page.
           schema:
             type: integer
+        - name: cache_only
+          description: if set only documents with cached XML are returned
+          in: query
+          schema:
+            type: string
         - name: es_id
           in: query
           schema:
