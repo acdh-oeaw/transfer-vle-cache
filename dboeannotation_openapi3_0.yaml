@@ -1,23 +1,27 @@
 openapi: 3.0.1
 info:
   title: DBÖ annotation service rest api
-  description: ""
-  version: ""
+  description: Backend of CollectionCat
+  version: ''
+  contact:
+    name: ACDH tech team
+    email: acdh-ch-tech@oeaw.ac.at
 servers:
-- url: https://dboeannotation-test.acdh-dev.oeaw.ac.at/
+  - url: https://dboeannotation-test.acdh-dev.oeaw.ac.at
 paths:
-  /api-token-auth/:
+  /api-token-auth:
     post:
+      description: Create an API token
       tags:
-      - api-token-auth
+        - api-token-auth
       operationId: api-token-auth_create
       requestBody:
         content:
           application/json:
             schema:
               required:
-              - password
-              - username
+                - password
+                - username
               type: object
               properties:
                 username:
@@ -28,845 +32,2837 @@ paths:
                   description: Valid password for authentication
         required: false
       responses:
-        201:
-          description: ""
+        '201':
+          description: ''
           content: {}
       x-codegen-request-body-name: data
-  /api/annotations/:
+  /api/annotations:
     get:
+      description: Get annotations
       tags:
-      - api
+        - api
       operationId: api_annotations_list
       parameters:
-      - name: page
-        in: query
-        description: A page number within the paginated result set.
-        schema:
-          type: integer
-      - name: page_size
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
-      - name: title
-        in: query
-        schema:
-          type: string
-      - name: description
-        in: query
-        schema:
-          type: string
-      - name: collection
-        in: query
-        schema:
-          type: string
-      - name: category
-        in: query
-        schema:
-          type: string
-      - name: created_by
-        in: query
-        schema:
-          type: string
+        - name: page
+          in: query
+          description: A page number within the paginated result set.
+          schema:
+            type: integer
+        - name: page_size
+          in: query
+          description: Number of results to return per page.
+          schema:
+            type: integer
+        - name: title
+          in: query
+          schema:
+            type: string
+        - name: description
+          in: query
+          schema:
+            type: string
+        - name: collection
+          in: query
+          schema:
+            type: string
+        - name: category
+          in: query
+          schema:
+            type: string
+        - name: created_by
+          in: query
+          schema:
+            type: string
       responses:
-        200:
-          description: ""
+        '200':
+          description: ''
           content: {}
-  /api/annotations/{id}/:
-    get:
+    post:
+      description: Create annoation
       tags:
-      - api
+        - api
+      operationId: api_annotations_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                collection:
+                  type: string
+                  description: ''
+                title:
+                  type: string
+                  description: ''
+                description:
+                  type: string
+                  description: Describe the annotation
+                category:
+                  type: string
+                  description: ''
+        required: false
+      responses:
+        '201':
+          description: ''
+          content: {}
+      x-codegen-request-body-name: data
+  /api/annotations/{id}:
+    get:
+      description: Get a particular annotation
+      tags:
+        - api
       operationId: api_annotations_read
       parameters:
-      - name: id
-        in: path
-        description: A unique integer value identifying this annotation.
-        required: true
-        schema:
-          type: integer
-      - name: title
-        in: query
-        schema:
-          type: string
-      - name: description
-        in: query
-        schema:
-          type: string
-      - name: collection
-        in: query
-        schema:
-          type: string
-      - name: category
-        in: query
-        schema:
-          type: string
-      - name: created_by
-        in: query
-        schema:
-          type: string
+        - name: id
+          in: path
+          description: A unique integer value identifying this annotation.
+          required: true
+          schema:
+            type: integer
+        - name: title
+          in: query
+          schema:
+            type: string
+        - name: description
+          in: query
+          schema:
+            type: string
+        - name: collection
+          in: query
+          schema:
+            type: string
+        - name: category
+          in: query
+          schema:
+            type: string
+        - name: created_by
+          in: query
+          schema:
+            type: string
       responses:
-        200:
-          description: ""
+        '200':
+          description: ''
           content: {}
-  /api/article_edits/:
-    get:
+    put:
+      description: Change an anotation
       tags:
-      - api
+        - api
+      operationId: api_annotations_update
+      parameters:
+        - name: id
+          in: path
+          description: A unique integer value identifying this annotation.
+          required: true
+          schema:
+            type: integer
+        - name: title
+          in: query
+          schema:
+            type: string
+        - name: description
+          in: query
+          schema:
+            type: string
+        - name: collection
+          in: query
+          schema:
+            type: string
+        - name: category
+          in: query
+          schema:
+            type: string
+        - name: created_by
+          in: query
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                collection:
+                  type: string
+                  description: ''
+                title:
+                  type: string
+                  description: ''
+                description:
+                  type: string
+                  description: Describe the annotation
+                category:
+                  type: string
+                  description: ''
+        required: false
+      responses:
+        '200':
+          description: ''
+          content: {}
+      x-codegen-request-body-name: data
+    delete:
+      description: Delete an annotation
+      tags:
+        - api
+      operationId: api_annotations_delete
+      parameters:
+        - name: id
+          in: path
+          description: A unique integer value identifying this annotation.
+          required: true
+          schema:
+            type: integer
+        - name: title
+          in: query
+          schema:
+            type: string
+        - name: description
+          in: query
+          schema:
+            type: string
+        - name: collection
+          in: query
+          schema:
+            type: string
+        - name: category
+          in: query
+          schema:
+            type: string
+        - name: created_by
+          in: query
+          schema:
+            type: string
+      responses:
+        '204':
+          description: ''
+          content: {}
+    patch:
+      description: Change annotations
+      tags:
+        - api
+      operationId: api_annotations_partial_update
+      parameters:
+        - name: id
+          in: path
+          description: A unique integer value identifying this annotation.
+          required: true
+          schema:
+            type: integer
+        - name: title
+          in: query
+          schema:
+            type: string
+        - name: description
+          in: query
+          schema:
+            type: string
+        - name: collection
+          in: query
+          schema:
+            type: string
+        - name: category
+          in: query
+          schema:
+            type: string
+        - name: created_by
+          in: query
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                collection:
+                  type: string
+                  description: ''
+                title:
+                  type: string
+                  description: ''
+                description:
+                  type: string
+                  description: Describe the annotation
+                category:
+                  type: string
+                  description: ''
+        required: false
+      responses:
+        '200':
+          description: ''
+          content: {}
+      x-codegen-request-body-name: data
+  /api/article_edits:
+    get:
+      description: get TODO
+      tags:
+        - api
       operationId: api_article_edits_list
       parameters:
-      - name: page
-        in: query
-        description: A page number within the paginated result set.
-        schema:
-          type: integer
-      - name: page_size
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
-      - name: deadline
-        in: query
-        schema:
-          type: string
-      - name: step
-        in: query
-        schema:
-          type: string
-      - name: status
-        in: query
-        schema:
-          type: string
-      - name: last_edited
-        in: query
-        schema:
-          type: string
-      - name: current
-        in: query
-        schema:
-          type: string
-      - name: user
-        in: query
-        schema:
-          type: string
-      - name: lemma
-        in: query
-        schema:
-          type: string
-      - name: finished_date
-        in: query
-        schema:
-          type: string
-      - name: begin_time
-        in: query
-        schema:
-          type: string
-      - name: reporting
-        in: query
-        schema:
-          type: string
-      - name: lemma__id
-        in: query
-        schema:
-          type: string
-      - name: date
-        in: query
-        schema:
-          type: string
-      - name: currentstatus
-        in: query
-        schema:
-          type: string
-      - name: mytasks
-        in: query
-        schema:
-          type: string
-      - name: ordering
-        in: query
-        description: Which field to use when ordering the results.
-        schema:
-          type: string
+        - name: page
+          in: query
+          description: A page number within the paginated result set.
+          schema:
+            type: integer
+        - name: page_size
+          in: query
+          description: Number of results to return per page.
+          schema:
+            type: integer
+        - name: deadline
+          in: query
+          schema:
+            type: string
+        - name: step
+          in: query
+          schema:
+            type: string
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: last_edited
+          in: query
+          schema:
+            type: string
+        - name: current
+          in: query
+          schema:
+            type: string
+        - name: user
+          in: query
+          schema:
+            type: string
+        - name: lemma
+          in: query
+          schema:
+            type: string
+        - name: finished_date
+          in: query
+          schema:
+            type: string
+        - name: begin_time
+          in: query
+          schema:
+            type: string
+        - name: reporting
+          in: query
+          schema:
+            type: string
+        - name: lemma__id
+          in: query
+          schema:
+            type: string
+        - name: date
+          in: query
+          schema:
+            type: string
+        - name: currentstatus
+          in: query
+          schema:
+            type: string
+        - name: mytasks
+          in: query
+          schema:
+            type: string
+        - name: ordering
+          in: query
+          description: Which field to use when ordering the results.
+          schema:
+            type: string
       responses:
-        200:
-          description: ""
+        '200':
+          description: ''
           content: {}
-  /api/article_edits/{id}/:
-    get:
+    post:
+      description: create TODO
       tags:
-      - api
+        - api
+      operationId: api_article_edits_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - status
+                - step
+              type: object
+              properties:
+                current:
+                  type: boolean
+                  description: Is this the current entry of the edit
+                begin_time:
+                  type: string
+                  description: ''
+                step:
+                  type: string
+                  description: ''
+                status:
+                  type: string
+                  description: ''
+                description:
+                  type: string
+                  description: Comment on Edit of Article
+                deadline:
+                  type: string
+                  description: ''
+                last_edited:
+                  type: string
+                  description: ''
+                user:
+                  type: string
+                  description: The user who did this editing
+                lemma:
+                  type: string
+                  description: Assigned lemma to this edit
+                finished_date:
+                  type: string
+                  description: ''
+        required: false
+      responses:
+        '201':
+          description: ''
+          content: {}
+      x-codegen-request-body-name: data
+  /api/article_edits/{id}:
+    get:
+      description: get a particular TODO
+      tags:
+        - api
       operationId: api_article_edits_read
       parameters:
-      - name: id
-        in: path
-        description: A unique integer value identifying this edit_of_article.
-        required: true
-        schema:
-          type: integer
-      - name: deadline
-        in: query
-        schema:
-          type: string
-      - name: step
-        in: query
-        schema:
-          type: string
-      - name: status
-        in: query
-        schema:
-          type: string
-      - name: last_edited
-        in: query
-        schema:
-          type: string
-      - name: current
-        in: query
-        schema:
-          type: string
-      - name: user
-        in: query
-        schema:
-          type: string
-      - name: lemma
-        in: query
-        schema:
-          type: string
-      - name: finished_date
-        in: query
-        schema:
-          type: string
-      - name: begin_time
-        in: query
-        schema:
-          type: string
-      - name: reporting
-        in: query
-        schema:
-          type: string
-      - name: lemma__id
-        in: query
-        schema:
-          type: string
-      - name: date
-        in: query
-        schema:
-          type: string
-      - name: currentstatus
-        in: query
-        schema:
-          type: string
-      - name: mytasks
-        in: query
-        schema:
-          type: string
-      - name: ordering
-        in: query
-        description: Which field to use when ordering the results.
-        schema:
-          type: string
+        - name: id
+          in: path
+          description: A unique integer value identifying this edit_of_article.
+          required: true
+          schema:
+            type: integer
+        - name: deadline
+          in: query
+          schema:
+            type: string
+        - name: step
+          in: query
+          schema:
+            type: string
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: last_edited
+          in: query
+          schema:
+            type: string
+        - name: current
+          in: query
+          schema:
+            type: string
+        - name: user
+          in: query
+          schema:
+            type: string
+        - name: lemma
+          in: query
+          schema:
+            type: string
+        - name: finished_date
+          in: query
+          schema:
+            type: string
+        - name: begin_time
+          in: query
+          schema:
+            type: string
+        - name: reporting
+          in: query
+          schema:
+            type: string
+        - name: lemma__id
+          in: query
+          schema:
+            type: string
+        - name: date
+          in: query
+          schema:
+            type: string
+        - name: currentstatus
+          in: query
+          schema:
+            type: string
+        - name: mytasks
+          in: query
+          schema:
+            type: string
+        - name: ordering
+          in: query
+          description: Which field to use when ordering the results.
+          schema:
+            type: string
       responses:
-        200:
-          description: ""
+        '200':
+          description: ''
           content: {}
-  /api/author_artikel/:
-    get:
+    put:
+      description: update a TODO
       tags:
-      - api
+        - api
+      operationId: api_article_edits_update
+      parameters:
+        - name: id
+          in: path
+          description: A unique integer value identifying this edit_of_article.
+          required: true
+          schema:
+            type: integer
+        - name: deadline
+          in: query
+          schema:
+            type: string
+        - name: step
+          in: query
+          schema:
+            type: string
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: last_edited
+          in: query
+          schema:
+            type: string
+        - name: current
+          in: query
+          schema:
+            type: string
+        - name: user
+          in: query
+          schema:
+            type: string
+        - name: lemma
+          in: query
+          schema:
+            type: string
+        - name: finished_date
+          in: query
+          schema:
+            type: string
+        - name: begin_time
+          in: query
+          schema:
+            type: string
+        - name: reporting
+          in: query
+          schema:
+            type: string
+        - name: lemma__id
+          in: query
+          schema:
+            type: string
+        - name: date
+          in: query
+          schema:
+            type: string
+        - name: currentstatus
+          in: query
+          schema:
+            type: string
+        - name: mytasks
+          in: query
+          schema:
+            type: string
+        - name: ordering
+          in: query
+          description: Which field to use when ordering the results.
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - status
+                - step
+              type: object
+              properties:
+                current:
+                  type: boolean
+                  description: Is this the current entry of the edit
+                begin_time:
+                  type: string
+                  description: ''
+                step:
+                  type: string
+                  description: ''
+                status:
+                  type: string
+                  description: ''
+                description:
+                  type: string
+                  description: Comment on Edit of Article
+                deadline:
+                  type: string
+                  description: ''
+                last_edited:
+                  type: string
+                  description: ''
+                user:
+                  type: string
+                  description: The user who did this editing
+                lemma:
+                  type: string
+                  description: Assigned lemma to this edit
+                finished_date:
+                  type: string
+                  description: ''
+        required: false
+      responses:
+        '200':
+          description: ''
+          content: {}
+      x-codegen-request-body-name: data
+    delete:
+      description: delete a TODO
+      tags:
+        - api
+      operationId: api_article_edits_delete
+      parameters:
+        - name: id
+          in: path
+          description: A unique integer value identifying this edit_of_article.
+          required: true
+          schema:
+            type: integer
+        - name: deadline
+          in: query
+          schema:
+            type: string
+        - name: step
+          in: query
+          schema:
+            type: string
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: last_edited
+          in: query
+          schema:
+            type: string
+        - name: current
+          in: query
+          schema:
+            type: string
+        - name: user
+          in: query
+          schema:
+            type: string
+        - name: lemma
+          in: query
+          schema:
+            type: string
+        - name: finished_date
+          in: query
+          schema:
+            type: string
+        - name: begin_time
+          in: query
+          schema:
+            type: string
+        - name: reporting
+          in: query
+          schema:
+            type: string
+        - name: lemma__id
+          in: query
+          schema:
+            type: string
+        - name: date
+          in: query
+          schema:
+            type: string
+        - name: currentstatus
+          in: query
+          schema:
+            type: string
+        - name: mytasks
+          in: query
+          schema:
+            type: string
+        - name: ordering
+          in: query
+          description: Which field to use when ordering the results.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: ''
+          content: {}
+    patch:
+      description: change TODOs
+      tags:
+        - api
+      operationId: api_article_edits_partial_update
+      parameters:
+        - name: id
+          in: path
+          description: A unique integer value identifying this edit_of_article.
+          required: true
+          schema:
+            type: integer
+        - name: deadline
+          in: query
+          schema:
+            type: string
+        - name: step
+          in: query
+          schema:
+            type: string
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: last_edited
+          in: query
+          schema:
+            type: string
+        - name: current
+          in: query
+          schema:
+            type: string
+        - name: user
+          in: query
+          schema:
+            type: string
+        - name: lemma
+          in: query
+          schema:
+            type: string
+        - name: finished_date
+          in: query
+          schema:
+            type: string
+        - name: begin_time
+          in: query
+          schema:
+            type: string
+        - name: reporting
+          in: query
+          schema:
+            type: string
+        - name: lemma__id
+          in: query
+          schema:
+            type: string
+        - name: date
+          in: query
+          schema:
+            type: string
+        - name: currentstatus
+          in: query
+          schema:
+            type: string
+        - name: mytasks
+          in: query
+          schema:
+            type: string
+        - name: ordering
+          in: query
+          description: Which field to use when ordering the results.
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                current:
+                  type: boolean
+                  description: Is this the current entry of the edit
+                begin_time:
+                  type: string
+                  description: ''
+                step:
+                  type: string
+                  description: ''
+                status:
+                  type: string
+                  description: ''
+                description:
+                  type: string
+                  description: Comment on Edit of Article
+                deadline:
+                  type: string
+                  description: ''
+                last_edited:
+                  type: string
+                  description: ''
+                user:
+                  type: string
+                  description: The user who did this editing
+                lemma:
+                  type: string
+                  description: Assigned lemma to this edit
+                finished_date:
+                  type: string
+                  description: ''
+        required: false
+      responses:
+        '200':
+          description: ''
+          content: {}
+      x-codegen-request-body-name: data
+  /api/author_artikel:
+    get:
+      description: get artikle lists
+      tags:
+        - api
       operationId: api_author_artikel_list
       parameters:
-      - name: page
-        in: query
-        description: A page number within the paginated result set.
-        schema:
-          type: integer
-      - name: page_size
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
+        - name: page
+          in: query
+          description: A page number within the paginated result set.
+          schema:
+            type: integer
+        - name: page_size
+          in: query
+          description: Number of results to return per page.
+          schema:
+            type: integer
       responses:
-        200:
-          description: ""
+        '200':
+          description: ''
           content: {}
-  /api/author_artikel/{id}/:
-    get:
+    post:
+      description: create artikel authors
       tags:
-      - api
+        - api
+      operationId: api_author_artikel_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                lemma_id:
+                  type: string
+                  description: ''
+                bearbeiter_id:
+                  type: string
+                  description: ''
+        required: false
+      responses:
+        '201':
+          description: ''
+          content: {}
+      x-codegen-request-body-name: data
+  /api/author_artikel/{id}:
+    get:
+      description: get article author
+      tags:
+        - api
       operationId: api_author_artikel_read
       parameters:
-      - name: id
-        in: path
-        description: A unique integer value identifying this autor_ artikel.
-        required: true
-        schema:
-          type: integer
+        - name: id
+          in: path
+          description: A unique integer value identifying this autor_ artikel.
+          required: true
+          schema:
+            type: integer
       responses:
-        200:
-          description: ""
+        '200':
+          description: ''
           content: {}
-  /api/categories/:
-    get:
+    put:
+      description: update artikel author
       tags:
-      - api
+        - api
+      operationId: api_author_artikel_update
+      parameters:
+        - name: id
+          in: path
+          description: A unique integer value identifying this autor_ artikel.
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                lemma_id:
+                  type: string
+                  description: ''
+                bearbeiter_id:
+                  type: string
+                  description: ''
+        required: false
+      responses:
+        '200':
+          description: ''
+          content: {}
+      x-codegen-request-body-name: data
+    delete:
+      description: delete TODO
+      tags:
+        - api
+      operationId: api_author_artikel_delete
+      parameters:
+        - name: id
+          in: path
+          description: A unique integer value identifying this autor_ artikel.
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: ''
+          content: {}
+    patch:
+      description: partially update TODO
+      tags:
+        - api
+      operationId: api_author_artikel_partial_update
+      parameters:
+        - name: id
+          in: path
+          description: A unique integer value identifying this autor_ artikel.
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                lemma_id:
+                  type: string
+                  description: ''
+                bearbeiter_id:
+                  type: string
+                  description: ''
+        required: false
+      responses:
+        '200':
+          description: ''
+          content: {}
+      x-codegen-request-body-name: data
+  /api/categories:
+    get:
+      description: get categories
+      tags:
+        - api
       operationId: api_categories_list
       parameters:
-      - name: page
-        in: query
-        description: A page number within the paginated result set.
-        schema:
-          type: integer
-      - name: page_size
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
-      - name: name
-        in: query
-        schema:
-          type: string
+        - name: page
+          in: query
+          description: A page number within the paginated result set.
+          schema:
+            type: integer
+        - name: page_size
+          in: query
+          description: Number of results to return per page.
+          schema:
+            type: integer
+        - name: name
+          in: query
+          schema:
+            type: string
       responses:
-        200:
-          description: ""
+        '200':
+          description: ''
           content: {}
-  /api/categories/{id}/:
-    get:
+    post:
+      description: create categories
       tags:
-      - api
+        - api
+      operationId: api_categories_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - name
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                description:
+                  type: string
+                  description: Describe the purpose of this category
+                note:
+                  type: string
+                  description: Note/Comment
+                notation:
+                  type: string
+                  description: ''
+        required: false
+      responses:
+        '201':
+          description: ''
+          content: {}
+      x-codegen-request-body-name: data
+  /api/categories/{id}:
+    get:
+      description: get a category
+      tags:
+        - api
       operationId: api_categories_read
       parameters:
-      - name: id
-        in: path
-        description: A unique integer value identifying this category.
-        required: true
-        schema:
-          type: integer
-      - name: name
-        in: query
-        schema:
-          type: string
+        - name: id
+          in: path
+          description: A unique integer value identifying this category.
+          required: true
+          schema:
+            type: integer
+        - name: name
+          in: query
+          schema:
+            type: string
       responses:
-        200:
-          description: ""
+        '200':
+          description: ''
           content: {}
-  /api/collections/:
-    get:
+    put:
+      description: update a category
       tags:
-      - api
+        - api
+      operationId: api_categories_update
+      parameters:
+        - name: id
+          in: path
+          description: A unique integer value identifying this category.
+          required: true
+          schema:
+            type: integer
+        - name: name
+          in: query
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - name
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                description:
+                  type: string
+                  description: Describe the purpose of this category
+                note:
+                  type: string
+                  description: Note/Comment
+                notation:
+                  type: string
+                  description: ''
+        required: false
+      responses:
+        '200':
+          description: ''
+          content: {}
+      x-codegen-request-body-name: data
+    delete:
+      description: delete a category
+      tags:
+        - api
+      operationId: api_categories_delete
+      parameters:
+        - name: id
+          in: path
+          description: A unique integer value identifying this category.
+          required: true
+          schema:
+            type: integer
+        - name: name
+          in: query
+          schema:
+            type: string
+      responses:
+        '204':
+          description: ''
+          content: {}
+    patch:
+      description: partially update a category
+      tags:
+        - api
+      operationId: api_categories_partial_update
+      parameters:
+        - name: id
+          in: path
+          description: A unique integer value identifying this category.
+          required: true
+          schema:
+            type: integer
+        - name: name
+          in: query
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                description:
+                  type: string
+                  description: Describe the purpose of this category
+                note:
+                  type: string
+                  description: Note/Comment
+                notation:
+                  type: string
+                  description: ''
+        required: false
+      responses:
+        '200':
+          description: ''
+          content: {}
+      x-codegen-request-body-name: data
+  /api/collections:
+    get:
+      description: get collections
+      tags:
+        - api
       operationId: api_collections_list
       parameters:
-      - name: page
-        in: query
-        description: A page number within the paginated result set.
-        schema:
-          type: integer
-      - name: page_size
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
-      - name: id
-        in: query
-        schema:
-          type: number
-      - name: id__contains
-        in: query
-        schema:
-          type: number
-      - name: created_by
-        in: query
-        schema:
-          type: string
-      - name: public
-        in: query
-        schema:
-          type: string
-      - name: annotations
-        in: query
-        schema:
-          type: string
-      - name: deleted
-        in: query
-        schema:
-          type: string
-      - name: lemma_id
-        in: query
-        schema:
-          type: string
-      - name: lemma_id__isnull
-        in: query
-        schema:
-          type: string
-      - name: title
-        in: query
-        schema:
-          type: string
-      - name: annotations__category
-        in: query
-        description: Search collections by category of its annotations
-        schema:
-          type: string
-      - name: tag
-        in: query
-        description: Filter collections by tags of its documents
-        schema:
-          type: string
-      - name: category
-        in: query
-        schema:
-          type: string
-      - name: ordering
-        in: query
-        description: Which field to use when ordering the results.
-        schema:
-          type: string
+        - name: page
+          in: query
+          description: A page number within the paginated result set.
+          schema:
+            type: integer
+        - name: page_size
+          in: query
+          description: Number of results to return per page.
+          schema:
+            type: integer
+        - name: id
+          in: query
+          schema:
+            type: number
+        - name: id__contains
+          in: query
+          schema:
+            type: number
+        - name: created_by
+          in: query
+          schema:
+            type: string
+        - name: public
+          in: query
+          schema:
+            type: string
+        - name: annotations
+          in: query
+          schema:
+            type: string
+        - name: deleted
+          in: query
+          schema:
+            type: string
+        - name: lemma_id
+          in: query
+          schema:
+            type: string
+        - name: lemma_id__isnull
+          in: query
+          schema:
+            type: string
+        - name: title
+          in: query
+          schema:
+            type: string
+        - name: annotations__category
+          in: query
+          description: Search collections by category of its annotations
+          schema:
+            type: string
+        - name: tag
+          in: query
+          description: Filter collections by tags of its documents
+          schema:
+            type: string
+        - name: category
+          in: query
+          schema:
+            type: string
+        - name: ordering
+          in: query
+          description: Which field to use when ordering the results.
+          schema:
+            type: string
       responses:
-        200:
-          description: ""
+        '200':
+          description: ''
           content: {}
-  /api/collections/{_id}/:
-    get:
+    post:
+      description: create a collection
       tags:
-      - api
+        - api
+      operationId: api_collections_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - category
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: Title
+                lemma_id:
+                  type: string
+                  description: Collections in which this lemma apperas
+                description:
+                  type: string
+                  description: Describe the collection
+                es_document:
+                  type: array
+                  description: ''
+                  items:
+                    type: string
+                comment:
+                  type: string
+                  description: Comment on collection
+                curator:
+                  type: array
+                  description: >-
+                    The selected user(s) will be able to view, edit and delete
+                    current Collection.
+                  items:
+                    type: string
+                public:
+                  type: boolean
+                  description: Public collection or not. By default is not public.
+                category:
+                  type: string
+                  description: ''
+                deleted:
+                  type: boolean
+                  description: deletion flag
+        required: false
+      responses:
+        '201':
+          description: ''
+          content: {}
+      x-codegen-request-body-name: data
+  /api/collections/{id}:
+    get:
+      description: get a collection
+      tags:
+        - api
       operationId: api_collections_read
       parameters:
-      - name: _id
-        in: path
-        description: A unique integer value identifying this collection.
-        required: true
-        schema:
-          type: integer
-      - name: id
-        in: query
-        schema:
-          type: number
-      - name: id__contains
-        in: query
-        schema:
-          type: number
-      - name: created_by
-        in: query
-        schema:
-          type: string
-      - name: public
-        in: query
-        schema:
-          type: string
-      - name: annotations
-        in: query
-        schema:
-          type: string
-      - name: deleted
-        in: query
-        schema:
-          type: string
-      - name: lemma_id
-        in: query
-        schema:
-          type: string
-      - name: lemma_id__isnull
-        in: query
-        schema:
-          type: string
-      - name: title
-        in: query
-        schema:
-          type: string
-      - name: annotations__category
-        in: query
-        description: Search collections by category of its annotations
-        schema:
-          type: string
-      - name: tag
-        in: query
-        description: Filter collections by tags of its documents
-        schema:
-          type: string
-      - name: category
-        in: query
-        schema:
-          type: string
-      - name: ordering
-        in: query
-        description: Which field to use when ordering the results.
-        schema:
-          type: string
+        - name: id
+          in: path
+          description: A unique integer value identifying this collection.
+          required: true
+          schema:
+            type: integer
+        - name: _id
+          in: query
+          schema:
+            type: number
+        - name: id__contains
+          in: query
+          schema:
+            type: number
+        - name: created_by
+          in: query
+          schema:
+            type: string
+        - name: public
+          in: query
+          schema:
+            type: string
+        - name: annotations
+          in: query
+          schema:
+            type: string
+        - name: deleted
+          in: query
+          schema:
+            type: string
+        - name: lemma_id
+          in: query
+          schema:
+            type: string
+        - name: lemma_id__isnull
+          in: query
+          schema:
+            type: string
+        - name: title
+          in: query
+          schema:
+            type: string
+        - name: annotations__category
+          in: query
+          description: Search collections by category of its annotations
+          schema:
+            type: string
+        - name: tag
+          in: query
+          description: Filter collections by tags of its documents
+          schema:
+            type: string
+        - name: category
+          in: query
+          schema:
+            type: string
+        - name: ordering
+          in: query
+          description: Which field to use when ordering the results.
+          schema:
+            type: string
       responses:
-        200:
-          description: ""
+        '200':
+          description: ''
           content: {}
-  /api/dboe-query/:
+    put:
+      description: update a collection
+      tags:
+        - api
+      operationId: api_collections_update
+      parameters:
+        - name: id
+          in: path
+          description: A unique integer value identifying this collection.
+          required: true
+          schema:
+            type: integer
+        - name: _id
+          in: query
+          schema:
+            type: number
+        - name: id__contains
+          in: query
+          schema:
+            type: number
+        - name: created_by
+          in: query
+          schema:
+            type: string
+        - name: public
+          in: query
+          schema:
+            type: string
+        - name: annotations
+          in: query
+          schema:
+            type: string
+        - name: deleted
+          in: query
+          schema:
+            type: string
+        - name: lemma_id
+          in: query
+          schema:
+            type: string
+        - name: lemma_id__isnull
+          in: query
+          schema:
+            type: string
+        - name: title
+          in: query
+          schema:
+            type: string
+        - name: annotations__category
+          in: query
+          description: Search collections by category of its annotations
+          schema:
+            type: string
+        - name: tag
+          in: query
+          description: Filter collections by tags of its documents
+          schema:
+            type: string
+        - name: category
+          in: query
+          schema:
+            type: string
+        - name: ordering
+          in: query
+          description: Which field to use when ordering the results.
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - category
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: Title
+                lemma_id:
+                  type: string
+                  description: Collections in which this lemma apperas
+                description:
+                  type: string
+                  description: Describe the collection
+                es_document:
+                  type: array
+                  description: ''
+                  items:
+                    type: string
+                comment:
+                  type: string
+                  description: Comment on collection
+                curator:
+                  type: array
+                  description: >-
+                    The selected user(s) will be able to view, edit and delete
+                    current Collection.
+                  items:
+                    type: string
+                public:
+                  type: boolean
+                  description: Public collection or not. By default is not public.
+                category:
+                  type: string
+                  description: ''
+                deleted:
+                  type: boolean
+                  description: deletion flag
+        required: false
+      responses:
+        '200':
+          description: ''
+          content: {}
+      x-codegen-request-body-name: data
+    delete:
+      description: delete a collection
+      tags:
+        - api
+      operationId: api_collections_delete
+      parameters:
+        - name: id
+          in: path
+          description: A unique integer value identifying this collection.
+          required: true
+          schema:
+            type: integer
+        - name: _id
+          in: query
+          schema:
+            type: number
+        - name: id__contains
+          in: query
+          schema:
+            type: number
+        - name: created_by
+          in: query
+          schema:
+            type: string
+        - name: public
+          in: query
+          schema:
+            type: string
+        - name: annotations
+          in: query
+          schema:
+            type: string
+        - name: deleted
+          in: query
+          schema:
+            type: string
+        - name: lemma_id
+          in: query
+          schema:
+            type: string
+        - name: lemma_id__isnull
+          in: query
+          schema:
+            type: string
+        - name: title
+          in: query
+          schema:
+            type: string
+        - name: annotations__category
+          in: query
+          description: Search collections by category of its annotations
+          schema:
+            type: string
+        - name: tag
+          in: query
+          description: Filter collections by tags of its documents
+          schema:
+            type: string
+        - name: category
+          in: query
+          schema:
+            type: string
+        - name: ordering
+          in: query
+          description: Which field to use when ordering the results.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: ''
+          content: {}
+    patch:
+      description: partially update a collection
+      tags:
+        - api
+      operationId: api_collections_partial_update
+      parameters:
+        - name: id
+          in: path
+          description: A unique integer value identifying this collection.
+          required: true
+          schema:
+            type: integer
+        - name: _id
+          in: query
+          schema:
+            type: number
+        - name: id__contains
+          in: query
+          schema:
+            type: number
+        - name: created_by
+          in: query
+          schema:
+            type: string
+        - name: public
+          in: query
+          schema:
+            type: string
+        - name: annotations
+          in: query
+          schema:
+            type: string
+        - name: deleted
+          in: query
+          schema:
+            type: string
+        - name: lemma_id
+          in: query
+          schema:
+            type: string
+        - name: lemma_id__isnull
+          in: query
+          schema:
+            type: string
+        - name: title
+          in: query
+          schema:
+            type: string
+        - name: annotations__category
+          in: query
+          description: Search collections by category of its annotations
+          schema:
+            type: string
+        - name: tag
+          in: query
+          description: Filter collections by tags of its documents
+          schema:
+            type: string
+        - name: category
+          in: query
+          schema:
+            type: string
+        - name: ordering
+          in: query
+          description: Which field to use when ordering the results.
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: Title
+                lemma_id:
+                  type: string
+                  description: Collections in which this lemma apperas
+                description:
+                  type: string
+                  description: Describe the collection
+                es_document:
+                  type: array
+                  description: ''
+                  items:
+                    type: string
+                comment:
+                  type: string
+                  description: Comment on collection
+                curator:
+                  type: array
+                  description: >-
+                    The selected user(s) will be able to view, edit and delete
+                    current Collection.
+                  items:
+                    type: string
+                public:
+                  type: boolean
+                  description: Public collection or not. By default is not public.
+                category:
+                  type: string
+                  description: ''
+                deleted:
+                  type: boolean
+                  description: deletion flag
+        required: false
+      responses:
+        '200':
+          description: ''
+          content: {}
+      x-codegen-request-body-name: data
+  /api/dboe-query:
     get:
       tags:
-      - api
+        - api
       summary: The endpoint to query external elasticsearch index;
       description: |-
         The endpoint to query external elasticsearch index;
         the query matches all fields
       operationId: api_dboe-query_list
       responses:
-        200:
-          description: ""
+        '200':
+          description: ''
           content: {}
-  /api/documents/:
+  /api/documents:
     get:
+      description: get documents
       tags:
-      - api
+        - api
       operationId: api_documents_list
       parameters:
-      - name: page
-        in: query
-        description: A page number within the paginated result set.
-        schema:
-          type: integer
-      - name: page_size
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
-      - name: es_id
-        in: query
-        schema:
-          type: string
-      - name: index
-        in: query
-        schema:
-          type: string
-      - name: version
-        in: query
-        schema:
-          type: number
-      - name: in_collections
-        in: query
-        schema:
-          type: string
-      - name: tag
-        in: query
-        schema:
-          type: string
-      - name: cache_only
-        in: query
-        schema:
-          type: boolean
+        - name: page
+          in: query
+          description: A page number within the paginated result set.
+          schema:
+            type: integer
+        - name: page_size
+          in: query
+          description: Number of results to return per page.
+          schema:
+            type: integer
+        - name: es_id
+          in: query
+          schema:
+            type: string
+        - name: index
+          in: query
+          schema:
+            type: string
+        - name: version
+          in: query
+          schema:
+            type: number
+        - name: in_collections
+          in: query
+          schema:
+            type: string
+        - name: tag
+          in: query
+          schema:
+            type: string
       responses:
-        200:
-          description: ""
+        '200':
+          description: ''
           content: {}
-  /api/documents/{id}/:
-    get:
+    post:
+      description: create a document
       tags:
-      - api
+        - api
+      operationId: api_documents_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - es_id
+              type: object
+              properties:
+                es_id:
+                  type: string
+                  description: ''
+                index:
+                  type: string
+                  description: ''
+                version:
+                  type: integer
+                  description: ''
+                tag:
+                  type: array
+                  description: ''
+                  items:
+                    type: string
+                scans:
+                  type: array
+                  description: ''
+                  items:
+                    type: string
+                xml:
+                  type: string
+                  description: XML Entry Data
+                xml_error_message:
+                  type: string
+                  description: Field for for wboe api to store validation error message
+        required: false
+      responses:
+        '201':
+          description: ''
+          content: {}
+      x-codegen-request-body-name: data
+  /api/documents/{id}:
+    get:
+      description: get a document
+      tags:
+        - api
       operationId: api_documents_read
       parameters:
-      - name: id
-        in: path
-        description: A unique integer value identifying this es_document.
-        required: true
-        schema:
-          type: integer
-      - name: es_id
-        in: query
-        schema:
-          type: string
-      - name: index
-        in: query
-        schema:
-          type: string
-      - name: version
-        in: query
-        schema:
-          type: number
-      - name: in_collections
-        in: query
-        schema:
-          type: string
-      - name: tag
-        in: query
-        schema:
-          type: string
+        - name: id
+          in: path
+          description: A unique integer value identifying this es_document.
+          required: true
+          schema:
+            type: integer
+        - name: es_id
+          in: query
+          schema:
+            type: string
+        - name: index
+          in: query
+          schema:
+            type: string
+        - name: version
+          in: query
+          schema:
+            type: number
+        - name: in_collections
+          in: query
+          schema:
+            type: string
+        - name: tag
+          in: query
+          schema:
+            type: string
       responses:
-        200:
-          description: ""
+        '200':
+          description: ''
           content: {}
-  /api/lemmas/:
-    get:
+    put:
+      description: update a document
       tags:
-      - api
+        - api
+      operationId: api_documents_update
+      parameters:
+        - name: id
+          in: path
+          description: A unique integer value identifying this es_document.
+          required: true
+          schema:
+            type: integer
+        - name: es_id
+          in: query
+          schema:
+            type: string
+        - name: index
+          in: query
+          schema:
+            type: string
+        - name: version
+          in: query
+          schema:
+            type: number
+        - name: in_collections
+          in: query
+          schema:
+            type: string
+        - name: tag
+          in: query
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - es_id
+              type: object
+              properties:
+                es_id:
+                  type: string
+                  description: ''
+                index:
+                  type: string
+                  description: ''
+                version:
+                  type: integer
+                  description: ''
+                tag:
+                  type: array
+                  description: ''
+                  items:
+                    type: string
+                scans:
+                  type: array
+                  description: ''
+                  items:
+                    type: string
+                xml:
+                  type: string
+                  description: XML Entry Data
+                xml_error_message:
+                  type: string
+                  description: Field for for wboe api to store validation error message
+        required: false
+      responses:
+        '200':
+          description: ''
+          content: {}
+      x-codegen-request-body-name: data
+    delete:
+      description: delete a document
+      tags:
+        - api
+      operationId: api_documents_delete
+      parameters:
+        - name: id
+          in: path
+          description: A unique integer value identifying this es_document.
+          required: true
+          schema:
+            type: integer
+        - name: es_id
+          in: query
+          schema:
+            type: string
+        - name: index
+          in: query
+          schema:
+            type: string
+        - name: version
+          in: query
+          schema:
+            type: number
+        - name: in_collections
+          in: query
+          schema:
+            type: string
+        - name: tag
+          in: query
+          schema:
+            type: string
+      responses:
+        '204':
+          description: ''
+          content: {}
+    patch:
+      description: partial document update
+      tags:
+        - api
+      operationId: api_documents_partial_update
+      parameters:
+        - name: id
+          in: path
+          description: A unique integer value identifying this es_document.
+          required: true
+          schema:
+            type: integer
+        - name: es_id
+          in: query
+          schema:
+            type: string
+        - name: index
+          in: query
+          schema:
+            type: string
+        - name: version
+          in: query
+          schema:
+            type: number
+        - name: in_collections
+          in: query
+          schema:
+            type: string
+        - name: tag
+          in: query
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                es_id:
+                  type: string
+                  description: ''
+                index:
+                  type: string
+                  description: ''
+                version:
+                  type: integer
+                  description: ''
+                tag:
+                  type: array
+                  description: ''
+                  items:
+                    type: string
+                scans:
+                  type: array
+                  description: ''
+                  items:
+                    type: string
+                xml:
+                  type: string
+                  description: XML Entry Data
+                xml_error_message:
+                  type: string
+                  description: Field for for wboe api to store validation error message
+        required: false
+      responses:
+        '200':
+          description: ''
+          content: {}
+      x-codegen-request-body-name: data
+  /api/lemmas:
+    get:
+      description: get lemmas
+      tags:
+        - api
       operationId: api_lemmas_list
       parameters:
-      - name: page
-        in: query
-        description: A page number within the paginated result set.
-        schema:
-          type: integer
-      - name: page_size
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
-      - name: org
-        in: query
-        schema:
-          type: string
-      - name: norm
-        in: query
-        schema:
-          type: string
-      - name: filename
-        in: query
-        schema:
-          type: string
-      - name: count
-        in: query
-        schema:
-          type: number
-      - name: simplex
-        in: query
-        schema:
-          type: string
-      - name: task
-        in: query
-        schema:
-          type: string
-      - name: lemmatisierung
-        in: query
-        schema:
-          type: string
-      - name: users
-        in: query
-        schema:
-          type: string
-      - name: id
-        in: query
-        schema:
-          type: number
-      - name: simplex__lemmatisierung
-        in: query
-        schema:
-          type: string
-      - name: count__gt
-        in: query
-        schema:
-          type: number
-      - name: count__lt
-        in: query
-        schema:
-          type: number
-      - name: has__norm
-        in: query
-        schema:
-          type: string
-      - name: collection
-        in: query
-        schema:
-          type: string
-      - name: has__simplex
-        in: query
-        schema:
-          type: string
-      - name: ordering
-        in: query
-        description: Which field to use when ordering the results.
-        schema:
-          type: string
+        - name: page
+          in: query
+          description: A page number within the paginated result set.
+          schema:
+            type: integer
+        - name: page_size
+          in: query
+          description: Number of results to return per page.
+          schema:
+            type: integer
+        - name: org
+          in: query
+          schema:
+            type: string
+        - name: norm
+          in: query
+          schema:
+            type: string
+        - name: filename
+          in: query
+          schema:
+            type: string
+        - name: count
+          in: query
+          schema:
+            type: number
+        - name: simplex
+          in: query
+          schema:
+            type: string
+        - name: task
+          in: query
+          schema:
+            type: string
+        - name: lemmatisierung
+          in: query
+          schema:
+            type: string
+        - name: users
+          in: query
+          schema:
+            type: string
+        - name: id
+          in: query
+          schema:
+            type: number
+        - name: simplex__lemmatisierung
+          in: query
+          schema:
+            type: string
+        - name: count__gt
+          in: query
+          schema:
+            type: number
+        - name: count__lt
+          in: query
+          schema:
+            type: number
+        - name: has__norm
+          in: query
+          schema:
+            type: string
+        - name: collection
+          in: query
+          schema:
+            type: string
+        - name: has__simplex
+          in: query
+          schema:
+            type: string
+        - name: ordering
+          in: query
+          description: Which field to use when ordering the results.
+          schema:
+            type: string
       responses:
-        200:
-          description: ""
+        '200':
+          description: ''
           content: {}
-  /api/lemmas/{_id}/:
-    get:
+    post:
+      description: create lemmas
       tags:
-      - api
+        - api
+      operationId: api_lemmas_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - org
+              type: object
+              properties:
+                lemmatisierung:
+                  type: string
+                  description: ''
+                norm:
+                  type: string
+                  description: ''
+                org:
+                  type: string
+                  description: ''
+                filename:
+                  type: string
+                  description: ''
+                comment:
+                  type: string
+                  description: Comment on Lemmata
+                count:
+                  type: integer
+                  description: ''
+                simplex:
+                  type: string
+                  description: ''
+                pos:
+                  type: string
+                  description: ''
+                suggestion:
+                  type: string
+                  description: ''
+        required: false
+      responses:
+        '201':
+          description: ''
+          content: {}
+      x-codegen-request-body-name: data
+  /api/lemmas/{id}:
+    get:
+      description: get lemma
+      tags:
+        - api
       operationId: api_lemmas_read
       parameters:
-      - name: _id
-        in: path
-        description: A unique integer value identifying this lemma.
-        required: true
-        schema:
-          type: integer
-      - name: org
-        in: query
-        schema:
-          type: string
-      - name: norm
-        in: query
-        schema:
-          type: string
-      - name: filename
-        in: query
-        schema:
-          type: string
-      - name: count
-        in: query
-        schema:
-          type: number
-      - name: simplex
-        in: query
-        schema:
-          type: string
-      - name: task
-        in: query
-        schema:
-          type: string
-      - name: lemmatisierung
-        in: query
-        schema:
-          type: string
-      - name: users
-        in: query
-        schema:
-          type: string
-      - name: id
-        in: query
-        schema:
-          type: number
-      - name: simplex__lemmatisierung
-        in: query
-        schema:
-          type: string
-      - name: count__gt
-        in: query
-        schema:
-          type: number
-      - name: count__lt
-        in: query
-        schema:
-          type: number
-      - name: has__norm
-        in: query
-        schema:
-          type: string
-      - name: collection
-        in: query
-        schema:
-          type: string
-      - name: has__simplex
-        in: query
-        schema:
-          type: string
-      - name: ordering
-        in: query
-        description: Which field to use when ordering the results.
-        schema:
-          type: string
+        - name: id
+          in: path
+          description: A unique integer value identifying this lemma.
+          required: true
+          schema:
+            type: integer
+        - name: org
+          in: query
+          schema:
+            type: string
+        - name: norm
+          in: query
+          schema:
+            type: string
+        - name: filename
+          in: query
+          schema:
+            type: string
+        - name: count
+          in: query
+          schema:
+            type: number
+        - name: simplex
+          in: query
+          schema:
+            type: string
+        - name: task
+          in: query
+          schema:
+            type: string
+        - name: lemmatisierung
+          in: query
+          schema:
+            type: string
+        - name: users
+          in: query
+          schema:
+            type: string
+        - name: _id
+          in: query
+          schema:
+            type: number
+        - name: simplex__lemmatisierung
+          in: query
+          schema:
+            type: string
+        - name: count__gt
+          in: query
+          schema:
+            type: number
+        - name: count__lt
+          in: query
+          schema:
+            type: number
+        - name: has__norm
+          in: query
+          schema:
+            type: string
+        - name: collection
+          in: query
+          schema:
+            type: string
+        - name: has__simplex
+          in: query
+          schema:
+            type: string
+        - name: ordering
+          in: query
+          description: Which field to use when ordering the results.
+          schema:
+            type: string
       responses:
-        200:
-          description: ""
+        '200':
+          description: ''
           content: {}
-  /api/tags/:
-    get:
+    put:
+      description: update a lemma
       tags:
-      - api
+        - api
+      operationId: api_lemmas_update
+      parameters:
+        - name: id
+          in: path
+          description: A unique integer value identifying this lemma.
+          required: true
+          schema:
+            type: integer
+        - name: org
+          in: query
+          schema:
+            type: string
+        - name: norm
+          in: query
+          schema:
+            type: string
+        - name: filename
+          in: query
+          schema:
+            type: string
+        - name: count
+          in: query
+          schema:
+            type: number
+        - name: simplex
+          in: query
+          schema:
+            type: string
+        - name: task
+          in: query
+          schema:
+            type: string
+        - name: lemmatisierung
+          in: query
+          schema:
+            type: string
+        - name: users
+          in: query
+          schema:
+            type: string
+        - name: _id
+          in: query
+          schema:
+            type: number
+        - name: simplex__lemmatisierung
+          in: query
+          schema:
+            type: string
+        - name: count__gt
+          in: query
+          schema:
+            type: number
+        - name: count__lt
+          in: query
+          schema:
+            type: number
+        - name: has__norm
+          in: query
+          schema:
+            type: string
+        - name: collection
+          in: query
+          schema:
+            type: string
+        - name: has__simplex
+          in: query
+          schema:
+            type: string
+        - name: ordering
+          in: query
+          description: Which field to use when ordering the results.
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - org
+              type: object
+              properties:
+                lemmatisierung:
+                  type: string
+                  description: ''
+                norm:
+                  type: string
+                  description: ''
+                org:
+                  type: string
+                  description: ''
+                filename:
+                  type: string
+                  description: ''
+                comment:
+                  type: string
+                  description: Comment on Lemmata
+                count:
+                  type: integer
+                  description: ''
+                simplex:
+                  type: string
+                  description: ''
+                pos:
+                  type: string
+                  description: ''
+                suggestion:
+                  type: string
+                  description: ''
+        required: false
+      responses:
+        '200':
+          description: ''
+          content: {}
+      x-codegen-request-body-name: data
+    delete:
+      description: delete a lemma
+      tags:
+        - api
+      operationId: api_lemmas_delete
+      parameters:
+        - name: id
+          in: path
+          description: A unique integer value identifying this lemma.
+          required: true
+          schema:
+            type: integer
+        - name: org
+          in: query
+          schema:
+            type: string
+        - name: norm
+          in: query
+          schema:
+            type: string
+        - name: filename
+          in: query
+          schema:
+            type: string
+        - name: count
+          in: query
+          schema:
+            type: number
+        - name: simplex
+          in: query
+          schema:
+            type: string
+        - name: task
+          in: query
+          schema:
+            type: string
+        - name: lemmatisierung
+          in: query
+          schema:
+            type: string
+        - name: users
+          in: query
+          schema:
+            type: string
+        - name: _id
+          in: query
+          schema:
+            type: number
+        - name: simplex__lemmatisierung
+          in: query
+          schema:
+            type: string
+        - name: count__gt
+          in: query
+          schema:
+            type: number
+        - name: count__lt
+          in: query
+          schema:
+            type: number
+        - name: has__norm
+          in: query
+          schema:
+            type: string
+        - name: collection
+          in: query
+          schema:
+            type: string
+        - name: has__simplex
+          in: query
+          schema:
+            type: string
+        - name: ordering
+          in: query
+          description: Which field to use when ordering the results.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: ''
+          content: {}
+    patch:
+      description: partially updata a lemma
+      tags:
+        - api
+      operationId: api_lemmas_partial_update
+      parameters:
+        - name: id
+          in: path
+          description: A unique integer value identifying this lemma.
+          required: true
+          schema:
+            type: integer
+        - name: org
+          in: query
+          schema:
+            type: string
+        - name: norm
+          in: query
+          schema:
+            type: string
+        - name: filename
+          in: query
+          schema:
+            type: string
+        - name: count
+          in: query
+          schema:
+            type: number
+        - name: simplex
+          in: query
+          schema:
+            type: string
+        - name: task
+          in: query
+          schema:
+            type: string
+        - name: lemmatisierung
+          in: query
+          schema:
+            type: string
+        - name: users
+          in: query
+          schema:
+            type: string
+        - name: _id
+          in: query
+          schema:
+            type: number
+        - name: simplex__lemmatisierung
+          in: query
+          schema:
+            type: string
+        - name: count__gt
+          in: query
+          schema:
+            type: number
+        - name: count__lt
+          in: query
+          schema:
+            type: number
+        - name: has__norm
+          in: query
+          schema:
+            type: string
+        - name: collection
+          in: query
+          schema:
+            type: string
+        - name: has__simplex
+          in: query
+          schema:
+            type: string
+        - name: ordering
+          in: query
+          description: Which field to use when ordering the results.
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                lemmatisierung:
+                  type: string
+                  description: ''
+                norm:
+                  type: string
+                  description: ''
+                org:
+                  type: string
+                  description: ''
+                filename:
+                  type: string
+                  description: ''
+                comment:
+                  type: string
+                  description: Comment on Lemmata
+                count:
+                  type: integer
+                  description: ''
+                simplex:
+                  type: string
+                  description: ''
+                pos:
+                  type: string
+                  description: ''
+                suggestion:
+                  type: string
+                  description: ''
+        required: false
+      responses:
+        '200':
+          description: ''
+          content: {}
+      x-codegen-request-body-name: data
+  /api/tags:
+    get:
+      description: get tags
+      tags:
+        - api
       operationId: api_tags_list
       parameters:
-      - name: page
-        in: query
-        description: A page number within the paginated result set.
-        schema:
-          type: integer
-      - name: page_size
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
-      - name: name
-        in: query
-        schema:
-          type: string
-      - name: color
-        in: query
-        schema:
-          type: string
-      - name: emoji
-        in: query
-        schema:
-          type: string
+        - name: page
+          in: query
+          description: A page number within the paginated result set.
+          schema:
+            type: integer
+        - name: page_size
+          in: query
+          description: Number of results to return per page.
+          schema:
+            type: integer
+        - name: name
+          in: query
+          schema:
+            type: string
+        - name: color
+          in: query
+          schema:
+            type: string
+        - name: emoji
+          in: query
+          schema:
+            type: string
       responses:
-        200:
-          description: ""
+        '200':
+          description: ''
           content: {}
-  /api/tags/{id}/:
-    get:
+    post:
+      description: create tags
       tags:
-      - api
+        - api
+      operationId: api_tags_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - name
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                color:
+                  type: string
+                  description: ''
+                emoji:
+                  type: string
+                  description: ''
+                meta:
+                  type: string
+                  description: ''
+        required: false
+      responses:
+        '201':
+          description: ''
+          content: {}
+      x-codegen-request-body-name: data
+  /api/tags/{id}:
+    get:
+      description: get tags
+      tags:
+        - api
       operationId: api_tags_read
       parameters:
-      - name: id
-        in: path
-        description: A unique integer value identifying this tag.
-        required: true
-        schema:
-          type: integer
-      - name: name
-        in: query
-        schema:
-          type: string
-      - name: color
-        in: query
-        schema:
-          type: string
-      - name: emoji
-        in: query
-        schema:
-          type: string
+        - name: id
+          in: path
+          description: A unique integer value identifying this tag.
+          required: true
+          schema:
+            type: integer
+        - name: name
+          in: query
+          schema:
+            type: string
+        - name: color
+          in: query
+          schema:
+            type: string
+        - name: emoji
+          in: query
+          schema:
+            type: string
       responses:
-        200:
-          description: ""
+        '200':
+          description: ''
           content: {}
-  /api/users/:
-    get:
+    put:
+      description: chnage tag
       tags:
-      - api
+        - api
+      operationId: api_tags_update
+      parameters:
+        - name: id
+          in: path
+          description: A unique integer value identifying this tag.
+          required: true
+          schema:
+            type: integer
+        - name: name
+          in: query
+          schema:
+            type: string
+        - name: color
+          in: query
+          schema:
+            type: string
+        - name: emoji
+          in: query
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - name
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                color:
+                  type: string
+                  description: ''
+                emoji:
+                  type: string
+                  description: ''
+                meta:
+                  type: string
+                  description: ''
+        required: false
+      responses:
+        '200':
+          description: ''
+          content: {}
+      x-codegen-request-body-name: data
+    delete:
+      description: delete tag
+      tags:
+        - api
+      operationId: api_tags_delete
+      parameters:
+        - name: id
+          in: path
+          description: A unique integer value identifying this tag.
+          required: true
+          schema:
+            type: integer
+        - name: name
+          in: query
+          schema:
+            type: string
+        - name: color
+          in: query
+          schema:
+            type: string
+        - name: emoji
+          in: query
+          schema:
+            type: string
+      responses:
+        '204':
+          description: ''
+          content: {}
+    patch:
+      description: partially updata a tag
+      tags:
+        - api
+      operationId: api_tags_partial_update
+      parameters:
+        - name: id
+          in: path
+          description: A unique integer value identifying this tag.
+          required: true
+          schema:
+            type: integer
+        - name: name
+          in: query
+          schema:
+            type: string
+        - name: color
+          in: query
+          schema:
+            type: string
+        - name: emoji
+          in: query
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                color:
+                  type: string
+                  description: ''
+                emoji:
+                  type: string
+                  description: ''
+                meta:
+                  type: string
+                  description: ''
+        required: false
+      responses:
+        '200':
+          description: ''
+          content: {}
+      x-codegen-request-body-name: data
+  /api/users:
+    get:
+      description: get users
+      tags:
+        - api
       operationId: api_users_list
       parameters:
-      - name: page
-        in: query
-        description: A page number within the paginated result set.
-        schema:
-          type: integer
-      - name: page_size
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
-      - name: username
-        in: query
-        schema:
-          type: string
+        - name: page
+          in: query
+          description: A page number within the paginated result set.
+          schema:
+            type: integer
+        - name: page_size
+          in: query
+          description: Number of results to return per page.
+          schema:
+            type: integer
+        - name: username
+          in: query
+          schema:
+            type: string
       responses:
-        200:
-          description: ""
+        '200':
+          description: ''
           content: {}
-  /api/users/{id}/:
-    get:
+    post:
+      description: create users
       tags:
-      - api
+        - api
+      operationId: api_users_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - username
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: >-
+                    Required. 150 characters or fewer. Letters, digits and
+                    @/./+/-/_ only.
+                date_joined:
+                  type: string
+                  description: ''
+        required: false
+      responses:
+        '201':
+          description: ''
+          content: {}
+      x-codegen-request-body-name: data
+  /api/users/{id}:
+    get:
+      description: get user
+      tags:
+        - api
       operationId: api_users_read
       parameters:
-      - name: id
-        in: path
-        description: A unique integer value identifying this user.
-        required: true
-        schema:
-          type: integer
-      - name: username
-        in: query
-        schema:
-          type: string
+        - name: id
+          in: path
+          description: A unique integer value identifying this user.
+          required: true
+          schema:
+            type: integer
+        - name: username
+          in: query
+          schema:
+            type: string
       responses:
-        200:
-          description: ""
+        '200':
+          description: ''
           content: {}
-  /authenticate/:
-    post:
+    put:
+      description: change user
       tags:
-      - authenticate
+        - api
+      operationId: api_users_update
+      parameters:
+        - name: id
+          in: path
+          description: A unique integer value identifying this user.
+          required: true
+          schema:
+            type: integer
+        - name: username
+          in: query
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - username
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: >-
+                    Required. 150 characters or fewer. Letters, digits and
+                    @/./+/-/_ only.
+                date_joined:
+                  type: string
+                  description: ''
+        required: false
+      responses:
+        '200':
+          description: ''
+          content: {}
+      x-codegen-request-body-name: data
+    delete:
+      description: delete user
+      tags:
+        - api
+      operationId: api_users_delete
+      parameters:
+        - name: id
+          in: path
+          description: A unique integer value identifying this user.
+          required: true
+          schema:
+            type: integer
+        - name: username
+          in: query
+          schema:
+            type: string
+      responses:
+        '204':
+          description: ''
+          content: {}
+    patch:
+      description: change users
+      tags:
+        - api
+      operationId: api_users_partial_update
+      parameters:
+        - name: id
+          in: path
+          description: A unique integer value identifying this user.
+          required: true
+          schema:
+            type: integer
+        - name: username
+          in: query
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: >-
+                    Required. 150 characters or fewer. Letters, digits and
+                    @/./+/-/_ only.
+                date_joined:
+                  type: string
+                  description: ''
+        required: false
+      responses:
+        '200':
+          description: ''
+          content: {}
+      x-codegen-request-body-name: data
+  /authenticate:
+    post:
+      description: authenticate
+      tags:
+        - authenticate
       operationId: authenticate_create
       requestBody:
         content:
           application/json:
             schema:
               required:
-              - password
-              - username
+                - password
+                - username
               type: object
               properties:
                 username:
@@ -877,31 +2873,31 @@ paths:
                   description: Valid password for authentication
         required: false
       responses:
-        201:
-          description: ""
+        '201':
+          description: ''
           content: {}
       x-codegen-request-body-name: data
-  /project-info/:
+  /project-info:
     get:
       tags:
-      - project-info
+        - project-info
       summary: returns a dict providing metadata about the current project
       description: returns a dict providing metadata about the current project
       operationId: project-info_list
       responses:
-        200:
-          description: ""
+        '200':
+          description: ''
           content: {}
-  /version/:
+  /version:
     get:
       tags:
-      - version
+        - version
       summary: returns a software version
       description: returns a software version
       operationId: version_list
       responses:
-        200:
-          description: ""
+        '200':
+          description: ''
           content: {}
 components:
   securitySchemes:
@@ -909,3 +2905,10 @@ components:
       type: apiKey
       name: Authorization
       in: header
+tags:
+  - name: api-token-auth
+  - name: authenticate
+  - name: api
+  - name: version
+  - name: project-info
+    

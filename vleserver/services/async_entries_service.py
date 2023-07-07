@@ -37,7 +37,7 @@ async def _getDictDictNameEntry(
         ) as inital_response:
             if inital_response.status != 200:
                 error_response = await inital_response.json()
-                raise HTTPException(inital_response.status, error_response['title'])
+                raise HTTPException(inital_response.status, error_response['title'], error_response)
             response = await inital_response.json()
 
             return response
@@ -70,7 +70,7 @@ async def _changeEntry(
         async with session.request("put", base_path + path, params=query_params, json=data) as inital_response:
             if inital_response.status != 200:
                 error_response = await inital_response.json()
-                raise HTTPException(inital_response.status, error_response['title'])
+                raise HTTPException(inital_response.status, error_response['title'], error_response)
             response = await inital_response.json()
 
             return response
@@ -101,7 +101,7 @@ async def _deleteDictDictNameEntry(
         ) as inital_response:
             if inital_response.status != 204:
                 error_response = await inital_response.json()
-                raise HTTPException(inital_response.status, error_response['title'])
+                raise HTTPException(inital_response.status, error_response['title'], error_response)
 
             return None
 
