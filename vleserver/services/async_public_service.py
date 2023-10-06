@@ -3,7 +3,7 @@ from typing import *
 
 import aiohttp
 
-from ..api_config import APIConfig, HTTPException
+from vleserver.api_config import APIConfig, HTTPException
 
 
 async def _getRoot(api_config_override: Optional[APIConfig] = None) -> Any:

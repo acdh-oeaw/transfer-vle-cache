@@ -3,8 +3,7 @@ from typing import *
 
 import aiohttp
 
-from ..api_config import APIConfig, HTTPException
-from ..models import *
+from dboeannotation.api_config import APIConfig, HTTPException
 
 
 async def api_annotations_list(

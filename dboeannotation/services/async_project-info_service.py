@@ -3,8 +3,7 @@ from typing import *
 
 import aiohttp
 
-from ..api_config import APIConfig, HTTPException
-from ..models import *
+from dboeannotation.api_config import APIConfig, HTTPException
 
 
 async def project_info_list(api_config_override: Optional[APIConfig] = None) -> None:

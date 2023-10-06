@@ -3,7 +3,7 @@ from typing import *
 
 import aiohttp
 
-from ..api_config import APIConfig, HTTPException
+from vleserver.api_config import APIConfig, HTTPException
 
 
 async def _createDictBackup(

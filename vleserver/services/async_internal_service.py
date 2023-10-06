@@ -3,8 +3,7 @@ from typing import *
 
 import aiohttp
 
-from ..api_config import APIConfig, HTTPException
-from ..models import *
+from vleserver.api_config import APIConfig, HTTPException
 
 
 async def _getDictDictUserEntries404(api_config_override: Optional[APIConfig] = None) -> None:

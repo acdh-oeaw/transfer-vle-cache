@@ -12,7 +12,6 @@ pydantic = "==1.*"
 jupyterlab = "*"
 nbconvert = "*"
 openapi-python-generator = "*"
-setuptools = "*"
 
 [requires]
 python_version = "3.11"

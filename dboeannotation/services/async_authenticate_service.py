@@ -3,8 +3,7 @@ from typing import *
 
 import aiohttp
 
-from ..api_config import APIConfig, HTTPException
-from ..models import *
+from dboeannotation.api_config import APIConfig, HTTPException
 
 
 async def authenticate_create(data: Dict[str, Any], api_config_override: Optional[APIConfig] = None) -> None:

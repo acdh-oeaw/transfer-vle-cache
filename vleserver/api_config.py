@@ -5,8 +5,8 @@ from pydantic import BaseModel, Field
 
 
 class APIConfig(BaseModel):
-    access_token: Optional[str] = 'YWRtaW46OGM2OTc2ZTViNTQxMDQxNWJkZTkwOGJkNGRlZTE1ZGZiMTY3YTljODczZmM0YmI4YTgxZjZmMmFiNDQ4YTkxOA=='
-    base_path: str = "http://localhost:8984"
+    access_token: Optional[str] = os.environ.get("VLESERVER_BASIC_AUTH_BASE64", 'YWRtaW46OGM2OTc2ZTViNTQxMDQxNWJkZTkwOGJkNGRlZTE1ZGZiMTY3YTljODczZmM0YmI4YTgxZjZmMmFiNDQ4YTkxOA==')
+    base_path: str = os.environ.get("VLESERVER_HOST", "http://localhost:8984")
     verify: Union[bool, str] = True
 
     def get_access_token(self) -> Optional[str]:

@@ -1,4 +1,5 @@
 from typing import Dict, List
+import os
 import asyncio
 import nest_asyncio
 
@@ -13,7 +14,10 @@ from vleserver.api_config import HTTPException
 access_config = dboeannotationAPIConfig()
 
 async def getXmlFromCache() -> Dict:
-    response = await api_token_auth_create({'username': 'vle', 'password': 'changeme_please'}, access_config)
+    response = await api_token_auth_create({
+        'username': os.environ.get('DBOEANNOTATION_USER', 'vle'),
+        'password': os.environ.get('DBOEANNOTATION_PASSWORD','changeme_please')
+    }, access_config)
     # print(response['token'])
     access_config.set_access_token(response['token'])
     return await api_documents_list(cache_only=True, page_size=50, api_config_override=access_config)
