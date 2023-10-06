@@ -197,7 +197,7 @@ async def _changeEntries(
     Accept: Optional[Any] = None,
     Authorization: Optional[Any] = None,
     api_config_override: Optional[APIConfig] = None,
-) -> None:
+) -> Dict:
     api_config = api_config_override if api_config_override else APIConfig()
 
     base_path = api_config.base_path
