@@ -6,7 +6,7 @@ name = "pypi"
 [packages]
 aiohttp = "*"
 nest-asyncio = "*"
-pydantic = "*"
+pydantic = "==1.*"
 
 [dev-packages]
 jupyterlab = "*"
