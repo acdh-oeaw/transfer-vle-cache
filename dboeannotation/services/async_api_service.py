@@ -23,7 +23,7 @@ async def api_annotations_list(
     headers = {
         "Content-Type": "application/json",
         "Accept": "application/json",
-        "Authorization": f"Bearer { api_config.get_access_token() }",
+        "Authorization": f"Token { api_config.get_access_token() }",
     }
 
     query_params: Dict[str, Any] = {
@@ -67,7 +67,7 @@ async def api_annotations_read(
     headers = {
         "Content-Type": "application/json",
         "Accept": "application/json",
-        "Authorization": f"Bearer { api_config.get_access_token() }",
+        "Authorization": f"Token { api_config.get_access_token() }",
     }
 
     query_params: Dict[str, Any] = {
@@ -120,7 +120,7 @@ async def api_article_edits_list(
     headers = {
         "Content-Type": "application/json",
         "Accept": "application/json",
-        "Authorization": f"Bearer { api_config.get_access_token() }",
+        "Authorization": f"Token { api_config.get_access_token() }",
     }
 
     query_params: Dict[str, Any] = {
@@ -184,7 +184,7 @@ async def api_article_edits_read(
     headers = {
         "Content-Type": "application/json",
         "Accept": "application/json",
-        "Authorization": f"Bearer { api_config.get_access_token() }",
+        "Authorization": f"Token { api_config.get_access_token() }",
     }
 
     query_params: Dict[str, Any] = {
@@ -230,7 +230,7 @@ async def api_author_artikel_list(
     headers = {
         "Content-Type": "application/json",
         "Accept": "application/json",
-        "Authorization": f"Bearer { api_config.get_access_token() }",
+        "Authorization": f"Token { api_config.get_access_token() }",
     }
 
     query_params: Dict[str, Any] = {"page": page, "page_size": page_size}
@@ -258,7 +258,7 @@ async def api_author_artikel_read(id: int, api_config_override: Optional[APIConf
     headers = {
         "Content-Type": "application/json",
         "Accept": "application/json",
-        "Authorization": f"Bearer { api_config.get_access_token() }",
+        "Authorization": f"Token { api_config.get_access_token() }",
     }
 
     query_params: Dict[str, Any] = {}
@@ -291,7 +291,7 @@ async def api_categories_list(
     headers = {
         "Content-Type": "application/json",
         "Accept": "application/json",
-        "Authorization": f"Bearer { api_config.get_access_token() }",
+        "Authorization": f"Token { api_config.get_access_token() }",
     }
 
     query_params: Dict[str, Any] = {"page": page, "page_size": page_size, "name": name}
@@ -321,7 +321,7 @@ async def api_categories_read(
     headers = {
         "Content-Type": "application/json",
         "Accept": "application/json",
-        "Authorization": f"Bearer { api_config.get_access_token() }",
+        "Authorization": f"Token { api_config.get_access_token() }",
     }
 
     query_params: Dict[str, Any] = {"name": name}
@@ -366,7 +366,7 @@ async def api_collections_list(
     headers = {
         "Content-Type": "application/json",
         "Accept": "application/json",
-        "Authorization": f"Bearer { api_config.get_access_token() }",
+        "Authorization": f"Token { api_config.get_access_token() }",
     }
 
     query_params: Dict[str, Any] = {
@@ -426,7 +426,7 @@ async def api_collections_read(
     headers = {
         "Content-Type": "application/json",
         "Accept": "application/json",
-        "Authorization": f"Bearer { api_config.get_access_token() }",
+        "Authorization": f"Token { api_config.get_access_token() }",
     }
 
     query_params: Dict[str, Any] = {
@@ -468,7 +468,7 @@ async def api_dboe_query_list(api_config_override: Optional[APIConfig] = None) -
     headers = {
         "Content-Type": "application/json",
         "Accept": "application/json",
-        "Authorization": f"Bearer { api_config.get_access_token() }",
+        "Authorization": f"Token { api_config.get_access_token() }",
     }
 
     query_params: Dict[str, Any] = {}
@@ -506,7 +506,7 @@ async def api_documents_list(
     headers = {
         "Content-Type": "application/json",
         "Accept": "application/json",
-        "Authorization": f"Bearer { api_config.get_access_token() }",
+        "Authorization": f"Token { api_config.get_access_token() }",
     }
 
     query_params: Dict[str, Any] = {
@@ -543,20 +543,15 @@ async def api_documents_change(data: List[Dict[str, Any]], api_config_override: 
     headers = {
         "Content-Type": "application/json",
         "Accept": "application/json",
-        "Authorization": f"Bearer { api_config.get_access_token() }",
+        "Authorization": f"Token { api_config.get_access_token() }",
     }
-
-    query_params: Dict[str, Any] = {}
-
-    query_params = {key: value for (key, value) in query_params.items() if value is not None}
 
     async with aiohttp.ClientSession(headers=headers) as session:
         async with session.request(
-            "put", base_path + path, params=query_params, json=[i.dict() for i in data]
+            "put", base_path + path, json=data
         ) as inital_response:
             if inital_response.status != 200:
                 raise HTTPException(inital_response.status, f" failed with status code: {inital_response.status}")
-            response = await inital_response.json()
 
             return None
 
@@ -577,7 +572,7 @@ async def api_documents_read(
     headers = {
         "Content-Type": "application/json",
         "Accept": "application/json",
-        "Authorization": f"Bearer { api_config.get_access_token() }",
+        "Authorization": f"Token { api_config.get_access_token() }",
     }
 
     query_params: Dict[str, Any] = {
@@ -631,7 +626,7 @@ async def api_lemmas_list(
     headers = {
         "Content-Type": "application/json",
         "Accept": "application/json",
-        "Authorization": f"Bearer { api_config.get_access_token() }",
+        "Authorization": f"Token { api_config.get_access_token() }",
     }
 
     query_params: Dict[str, Any] = {
@@ -697,7 +692,7 @@ async def api_lemmas_read(
     headers = {
         "Content-Type": "application/json",
         "Accept": "application/json",
-        "Authorization": f"Bearer { api_config.get_access_token() }",
+        "Authorization": f"Token { api_config.get_access_token() }",
     }
 
     query_params: Dict[str, Any] = {
@@ -749,7 +744,7 @@ async def api_tags_list(
     headers = {
         "Content-Type": "application/json",
         "Accept": "application/json",
-        "Authorization": f"Bearer { api_config.get_access_token() }",
+        "Authorization": f"Token { api_config.get_access_token() }",
     }
 
     query_params: Dict[str, Any] = {"page": page, "page_size": page_size, "name": name, "color": color, "emoji": emoji}
@@ -783,7 +778,7 @@ async def api_tags_read(
     headers = {
         "Content-Type": "application/json",
         "Accept": "application/json",
-        "Authorization": f"Bearer { api_config.get_access_token() }",
+        "Authorization": f"Token { api_config.get_access_token() }",
     }
 
     query_params: Dict[str, Any] = {"name": name, "color": color, "emoji": emoji}
@@ -816,7 +811,7 @@ async def api_users_list(
     headers = {
         "Content-Type": "application/json",
         "Accept": "application/json",
-        "Authorization": f"Bearer { api_config.get_access_token() }",
+        "Authorization": f"Token { api_config.get_access_token() }",
     }
 
     query_params: Dict[str, Any] = {"page": page, "page_size": page_size, "username": username}
@@ -846,7 +841,7 @@ async def api_users_read(
     headers = {
         "Content-Type": "application/json",
         "Accept": "application/json",
-        "Authorization": f"Bearer { api_config.get_access_token() }",
+        "Authorization": f"Token { api_config.get_access_token() }",
     }
 
     query_params: Dict[str, Any] = {"username": username}
