@@ -4,12 +4,15 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-aiohttp = "~=3.8.4"
-nest-asyncio = "~=1.5.6"
+aiohttp = "*"
+nest-asyncio = "*"
+pydantic = "*"
 
 [dev-packages]
+jupyterlab = "*"
+nbconvert = "*"
 openapi-python-generator = "*"
+setuptools = "*"
 
 [requires]
-python_version = "3.9"
-python_full_version = "3.9.17"
+python_version = "3.11"
