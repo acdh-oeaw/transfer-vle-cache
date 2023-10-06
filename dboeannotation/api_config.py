@@ -5,15 +5,19 @@ from pydantic import BaseModel, Field
 
 
 class APIConfig(BaseModel):
-    base_path: str = "https://dboeannotation-test.acdh-dev.oeaw.ac.at/"
-    access_token: Optional[str] = None
+    base_path: str = "https://dboeannotation-test.acdh-dev.oeaw.ac.at"
     verify: Union[bool, str] = True
 
     def get_access_token(self) -> Optional[str]:
-        return self.access_token
+        try:
+            return os.environ["access_token"]
+        except KeyError:
+            return None
 
     def set_access_token(self, value: str):
-        self.access_token = value
+        raise Exception(
+            "This client was generated with an environment variable for the access token. Please set the environment variable 'access_token' to the access token."
+        )
 
 
 class HTTPException(Exception):

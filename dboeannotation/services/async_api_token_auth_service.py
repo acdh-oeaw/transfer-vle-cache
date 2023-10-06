@@ -4,9 +4,10 @@ from typing import *
 import aiohttp
 
 from ..api_config import APIConfig, HTTPException
+from ..models import *
 
 
-async def api_token_auth_create(data: Dict[str, Any], api_config_override: Optional[APIConfig] = None) -> Dict:
+async def api_token_auth_create(data: Dict[str, Any], api_config_override: Optional[APIConfig] = None) -> None:
     api_config = api_config_override if api_config_override else APIConfig()
 
     base_path = api_config.base_path

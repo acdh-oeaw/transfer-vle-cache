@@ -11,7 +11,7 @@ async def project_info_list(api_config_override: Optional[APIConfig] = None) -> 
     api_config = api_config_override if api_config_override else APIConfig()
 
     base_path = api_config.base_path
-    path = f"/project-info/"
+    path = f"/project-info"
     headers = {
         "Content-Type": "application/json",
         "Accept": "application/json",

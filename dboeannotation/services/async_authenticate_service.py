@@ -11,7 +11,7 @@ async def authenticate_create(data: Dict[str, Any], api_config_override: Optiona
     api_config = api_config_override if api_config_override else APIConfig()
 
     base_path = api_config.base_path
-    path = f"/authenticate/"
+    path = f"/authenticate"
     headers = {
         "Content-Type": "application/json",
         "Accept": "application/json",
