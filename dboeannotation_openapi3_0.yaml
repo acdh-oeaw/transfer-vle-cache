@@ -1,13 +1,17 @@
 openapi: 3.0.1
 info:
   title: DBÖ annotation service rest api
-  description: ""
-  version: ""
+  contact:
+    name: "Omar Siam"
+  description: API used to enhance and order the DBÖ HK paper slips
+  version: 1.0.0
 servers:
-- url: https://dboeannotation-test.acdh-dev.oeaw.ac.at/
+- url: https://dboeannotation-test.acdh-dev.oeaw.ac.at
 paths:
   /api-token-auth/:
     post:
+      summary: Exchange login for a bearer token
+      description: "Login method"
       tags:
       - api-token-auth
       operationId: api-token-auth_create
@@ -28,7 +32,7 @@ paths:
                   description: Valid password for authentication
         required: false
       responses:
-        201:
+        "201":
           description: ""
           content: {}
       x-codegen-request-body-name: data
@@ -69,7 +73,7 @@ paths:
         schema:
           type: string
       responses:
-        200:
+        "200":
           description: ""
           content: {}
   /api/annotations/{id}/:
@@ -105,7 +109,7 @@ paths:
         schema:
           type: string
       responses:
-        200:
+        "200":
           description: ""
           content: {}
   /api/article_edits/:
@@ -186,7 +190,7 @@ paths:
         schema:
           type: string
       responses:
-        200:
+        "200":
           description: ""
           content: {}
   /api/article_edits/{id}/:
@@ -263,7 +267,7 @@ paths:
         schema:
           type: string
       responses:
-        200:
+        "200":
           description: ""
           content: {}
   /api/author_artikel/:
@@ -283,7 +287,7 @@ paths:
         schema:
           type: integer
       responses:
-        200:
+        "200":
           description: ""
           content: {}
   /api/author_artikel/{id}/:
@@ -299,7 +303,7 @@ paths:
         schema:
           type: integer
       responses:
-        200:
+        "200":
           description: ""
           content: {}
   /api/categories/:
@@ -323,7 +327,7 @@ paths:
         schema:
           type: string
       responses:
-        200:
+        "200":
           description: ""
           content: {}
   /api/categories/{id}/:
@@ -343,7 +347,7 @@ paths:
         schema:
           type: string
       responses:
-        200:
+        "200":
           description: ""
           content: {}
   /api/collections/:
@@ -418,7 +422,7 @@ paths:
         schema:
           type: string
       responses:
-        200:
+        "200":
           description: ""
           content: {}
   /api/collections/{_id}/:
@@ -489,7 +493,7 @@ paths:
         schema:
           type: string
       responses:
-        200:
+        "200":
           description: ""
           content: {}
   /api/dboe-query/:
@@ -502,7 +506,7 @@ paths:
         the query matches all fields
       operationId: api_dboe-query_list
       responses:
-        200:
+        "200":
           description: ""
           content: {}
   /api/documents/:
@@ -546,7 +550,50 @@ paths:
         schema:
           type: boolean
       responses:
-        200:
+        "200":
+          description: ""
+          content: {}
+    put:
+      tags:
+      - api
+      operationId: api_documents_change
+      summary: Changes cached documents
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: number
+                  url:
+                    example: URL of this particular document.
+                    type: string
+                  es_id:
+                    example: The corresponding XML ID and opensearch document id
+                    type: string
+                  xml:
+                    example: The cached entry as XML fragment.
+                    type: string
+                  xml_modified_by:
+                    example: The user that modified the XML.
+                    type: string
+                  owner:
+                    example: The error message the XML database sent back.
+                    type: string
+              example:
+                - id: 1000
+                  url: https://dboeannotation-test.acdh-dev.oeaw.ac.at/api/documents/1000/
+                  es_id: f231_qdb-d1e100100
+                  xml: "<entry xmlns=\"http://www.tei-c.org/ns/1.0\" xml:id=\"f231_qdb-d1e100100\" n=\"198073\" source=\"#orig-f231_qdb-d1e100100\" facs=\"F_231/fall_1207.eck/fall_1207.eck_00043_00031_a.jp2\">...</entry>"
+                  xml_modified_by: someone
+                  xml_error_message: An error occurred
+        description: 'JSON describing the changed entry. Processed as variable: $userData'
+        required: true
+      responses:
+        "200":
           description: ""
           content: {}
   /api/documents/{id}/:
@@ -582,7 +629,7 @@ paths:
         schema:
           type: string
       responses:
-        200:
+        "200":
           description: ""
           content: {}
   /api/lemmas/:
@@ -667,7 +714,7 @@ paths:
         schema:
           type: string
       responses:
-        200:
+        "200":
           description: ""
           content: {}
   /api/lemmas/{_id}/:
@@ -748,7 +795,7 @@ paths:
         schema:
           type: string
       responses:
-        200:
+        "200":
           description: ""
           content: {}
   /api/tags/:
@@ -780,7 +827,7 @@ paths:
         schema:
           type: string
       responses:
-        200:
+        "200":
           description: ""
           content: {}
   /api/tags/{id}/:
@@ -808,7 +855,7 @@ paths:
         schema:
           type: string
       responses:
-        200:
+        "200":
           description: ""
           content: {}
   /api/users/:
@@ -832,7 +879,7 @@ paths:
         schema:
           type: string
       responses:
-        200:
+        "200":
           description: ""
           content: {}
   /api/users/{id}/:
@@ -852,7 +899,7 @@ paths:
         schema:
           type: string
       responses:
-        200:
+        "200":
           description: ""
           content: {}
   /authenticate/:
@@ -877,7 +924,7 @@ paths:
                   description: Valid password for authentication
         required: false
       responses:
-        201:
+        "201":
           description: ""
           content: {}
       x-codegen-request-body-name: data
@@ -889,7 +936,7 @@ paths:
       description: returns a dict providing metadata about the current project
       operationId: project-info_list
       responses:
-        200:
+        "200":
           description: ""
           content: {}
   /version/:
@@ -900,7 +947,7 @@ paths:
       description: returns a software version
       operationId: version_list
       responses:
-        200:
+        "200":
           description: ""
           content: {}
 components:
@@ -909,3 +956,8 @@ components:
       type: apiKey
       name: Authorization
       in: header
+tags:
+  - name: api-token-auth
+    description: User login
+  - name: api
+    description: Interact with annotations
