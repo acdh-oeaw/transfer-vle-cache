@@ -6,7 +6,7 @@ info:
   description: API used to enhance and order the DBÖ HK paper slips
   version: 1.0.0
 servers:
-- url: https://dboeannotation-test.acdh-dev.oeaw.ac.at
+- url: https://dboeannotation-test.acdh-dev.oeaw.ac.at/
 paths:
   /api-token-auth/:
     post:
