@@ -1,0 +1,7 @@
+.git
+.github
+.idea
+k8s
+*.ipynb
+vleserver_openapi3_0.yaml
+testentries.json
