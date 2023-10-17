@@ -48,7 +48,7 @@ jobs:
     outputs:
       PUBLIC_URL: ${{ steps.generate_public_url.outputs.public_url }}
   _1:
-    needs: [setup_workflow_env]
+    needs: [setup_workflow_env, generate_workflow_vars]
     uses:  acdh-oeaw/gl-autodevops-minimal-port/.github/workflows/build-dockerfile-and-push-to-registry.yaml@main
     secrets: inherit
     with:
