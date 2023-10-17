@@ -1,0 +1,36 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: transfer-vle-cache
+  namespace: dboe-annotation
+spec:
+  jobTemplate:
+    metadata:
+      namespace: dboe-annotation
+    spec:
+      template:
+        spec:
+          containers:
+            - imagePullPolicy: Always
+              name: transfer-vle-cache
+              image: ghcr.io/acdh-oeaw/transfer-vle-cache/transfer-vle-cache:latest
+              envFrom:
+                - prefix: ''
+                  secretRef:
+                    name: transfer-vle-cache
+                    optional: false
+          restartPolicy: Never
+  schedule: 0/15 * * * *
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: transfer-vle-cache-test
+  namespace: dboe-annotation
+type: Opaque
+stringData:
+  DBOEANNOTATION_HOST: https://dboeannotation-test.acdh-dev.oeaw.ac.at
+  DBOEANNOTATION_USER: vle
+  DBOEANNOTATION_PASSWORD: look_me_up
+  VLESERVER_HOST: https://dboe-webtest.acdh-dev.oeaw.ac.at
+  VLESERVER_BASIC_AUTH_BASE64: <Basic auth encoded user:pass>
